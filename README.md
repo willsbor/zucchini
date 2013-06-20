@@ -77,8 +77,13 @@ devices:
     app: ./Build/Products/Debug-iphoneos/CoreDataBooks.app
 ```
 
+If you do not want to hard-code the app path in your config files, you can use the environment variable `ZUCCHINI_APP`:
 
-Run it as usual:
+```
+ZUCCHINI_APP="/path/to/app" zucchini...
+```
+
+Run Zucchini and watch the simulator go!
 
 ```
 ZUCCHINI_DEVICE="iOS Simulator" zucchini run /path/to/my_feature
