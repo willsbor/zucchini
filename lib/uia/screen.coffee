@@ -11,7 +11,6 @@ class Screen
     target.captureScreenWithName("#{orientation}_#{name}")
 
   constructor: (@name) ->
-    if @anchor then target.waitForElement @anchor()
 
   elements: {}
   actions :

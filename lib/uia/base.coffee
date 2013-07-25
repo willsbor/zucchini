@@ -35,17 +35,16 @@ UIAElement.prototype.$ = (name) ->
   elem
 
 target.waitForElement = (element) ->
-  return unless element
+  return false unless element
   found = false
   counter = 0
   while not found and (counter < 10)
     if element.isValid() and element.isVisible()
       found = true
-      puts "Got the awaited element: #{element}"
-      @delay 1
     else
       @delay 0.5
       counter++
+  return found
 
 isNullElement = (elem) -> elem.toString() == "[object UIAElementNil]"
 
@@ -70,6 +69,16 @@ class Zucchini
         screen = eval("new #{screenName.camelCase()}Screen")
       catch e
         raise "Screen '#{screenName}' not defined"
+
+      if screen.anchor
+        element = screen.anchor()
+        found = target.waitForElement(element)
+
+        if found
+          puts "Found anchor for screen '#{screenName}'"
+          target.delay 1
+        else
+          raise "Could not find anchor for screen '#{screenName}'"
 
       for line in lines.slice(1)
          functionFound = false
