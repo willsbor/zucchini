@@ -63,7 +63,8 @@ class Zucchini::Screenshot
 
       compare_command = "compare -metric AE -fuzz 2% -dissimilarity-threshold 1 -subimage-search"
       out = `#{compare_command} \"#{@masked_paths[:specifically]}\" \"#{@test_path}\" \"#{@diff_path}\" 2>&1`
-      @diff = (out == "0\n") ? [:passed, nil] : [:failed, out]
+      out.chomp!
+      @diff = (out == '0') ? [:passed, nil] : [:failed, out]
       @diff = [:pending, @diff[1]] if @pending
     else
       @diff = [:failed, "no reference or pending screenshot for #{@device[:screen]}\n"]
