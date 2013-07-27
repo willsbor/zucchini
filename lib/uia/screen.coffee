@@ -69,3 +69,7 @@ class Screen
 
     'Show elements' : ->
       view.logElementTree()
+
+    'Rotate device to "([^"]*)"$': (orientation) ->
+      orientation = if orientation == "landscape" then UIA_DEVICE_ORIENTATION_LANDSCAPERIGHT else UIA_DEVICE_ORIENTATION_PORTRAIT
+      target.setDeviceOrientation(orientation)
