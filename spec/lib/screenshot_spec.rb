@@ -58,7 +58,7 @@ describe Zucchini::Screenshot do
         screenshot.stub!(:mask_reference)
         screenshot.test_path = "#{base_path}/reference/#{device[:screen]}/06_sign\ up_spinner_error.png"
         screenshot.compare
-        screenshot.diff.should eq [:failed, "3017\n"]
+        screenshot.diff.should eq [:failed, "3017"]
       end
     end
   end
