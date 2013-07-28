@@ -15,9 +15,11 @@ Gem::Specification.new do |s|
   s.summary     = %q{Functional testing framework for iOS-powered devices}
   s.description = %q{Zucchini follows simple walkthrough scenarios for your iOS app, takes screenshots and compares them to the reference ones.}
 
-  s.add_runtime_dependency     "clamp"
-  s.add_development_dependency "rspec"
-  s.add_development_dependency "watchr"
+  s.add_runtime_dependency     'clamp'
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'watchr'
+  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'coveralls'
 
   s.files         = `git ls-files | grep -vE '(web|.watchr)'`.split("\n")
   s.test_files    = `git ls-files -- spec/*`.split("\n")

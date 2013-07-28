@@ -1,4 +1,5 @@
 [![Build Status](https://api.travis-ci.org/zucchini-src/zucchini.png)](http://travis-ci.org/zucchini-src/zucchini)
+[![Coverage Status](https://coveralls.io/repos/zucchini-src/zucchini/badge.png)](https://coveralls.io/r/zucchini-src/zucchini)
 
 Pre-requisites
 --------------
