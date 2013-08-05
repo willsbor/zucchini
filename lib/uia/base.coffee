@@ -76,7 +76,6 @@ class Zucchini
 
         if found
           puts "Found anchor for screen '#{screenName}'"
-          target.delay 1
         else
           raise "Could not find anchor for screen '#{screenName}'"
 
