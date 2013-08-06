@@ -1,5 +1,5 @@
 class Screen
-  takeScreenshot: (name) ->
+  takeScreenshot: (screenshot_name) ->
     orientation = switch app.interfaceOrientation()
       when 0 then 'Unknown'
       when 1 then 'Portrait'
@@ -8,7 +8,8 @@ class Screen
       when 4 then 'LandscapeRight'
       when 5 then 'FaceUp'
       when 6 then 'FaceDown'
-    target.captureScreenWithName("#{orientation}_#{name}")
+    puts "Screenshot of screen '#{@name}' taken"
+    target.captureScreenWithName("#{orientation}_#{@name}-screen_#{screenshot_name}")
 
   constructor: (@name) ->
 
@@ -17,8 +18,8 @@ class Screen
     'Take a screenshot$' : ->
       @takeScreenshot(@name)
 
-    'Take a screenshot named "([^"]*)"$' : (name) ->
-      @takeScreenshot(name)
+    'Take a screenshot named "([^"]*)"$' : (screenshot_name) ->
+      @takeScreenshot(screenshot_name)
 
     'Tap "([^"]*)"$' : (element) ->
       raise "Element '#{element}' not defined for the screen '#{@name}'" unless @elements[element]
