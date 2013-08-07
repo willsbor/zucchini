@@ -23,7 +23,7 @@ module Zucchini
       device_name = ENV['ZUCCHINI_DEVICE'] || @@default_device_name
       app_path    = File.absolute_path(devices[device_name]['app'] || @@config['app'] || ENV['ZUCCHINI_APP'])
 
-      if device_name == 'iOS Simulator' && !File.exists?(app_path)
+      if device_name =~ /iOS Simulator/ && !File.exists?(app_path)
         raise "Can't find application at path #{app_path}"
       end
       app_path
@@ -44,7 +44,7 @@ module Zucchini
     def self.device(device_name)
       device_name ||= @@default_device_name
       raise "Neither default device nor ZUCCHINI_DEVICE environment variable was set" unless device_name
-      raise "Device not listed in config.yml" unless (device = devices[device_name])
+      raise "Device '#{device_name}' not listed in config.yml" unless (device = devices[device_name])
       {
         :name   => device_name,
         :udid   => device['UDID'],
