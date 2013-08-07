@@ -4,6 +4,7 @@ module Zucchini
   require 'zucchini/config'
   require 'zucchini/screenshot'
   require 'zucchini/report'
+  require 'zucchini/compiler'
   require 'zucchini/feature'
   require 'zucchini/detector'
   require 'zucchini/runner'

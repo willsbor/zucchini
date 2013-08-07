@@ -45,6 +45,7 @@ class Zucchini::Feature
     end
   end
 
+<<<<<<< HEAD
   def compile_js(initial_orientation=0)
     zucchini_base_path = File.expand_path(File.dirname(__FILE__))
 
@@ -65,19 +66,19 @@ class Zucchini::Feature
   def collect
     with_setup do
       `rm -rf #{run_data_path}/*`
-      
+
       if @device[:name] == "iOS Simulator" || @device[:simulator]
         device_params = ""
         set_simulator_device(@device[:simulator]) if @device[:simulator].is_a?(String)
         initial_orientation = @device[:orientation]
       else
         device_params = "-w #{@device[:udid]}"
-      end 
+      end
 
       compile_js(initial_orientation)
-      
+
       begin
-        out = `instruments #{device_params} -t "#{@template}" "#{Zucchini::Config.app}" -e UIASCRIPT "#{run_data_path}/feature.js" -e UIARESULTSPATH "#{run_data_path}" 2>&1`
+        out = `instruments #{device_params} -t "#{@template}" "#{Zucchini::Config.app}" -e UIASCRIPT "#{js_path}" -e UIARESULTSPATH "#{run_data_path}" 2>&1`
         puts out
         # Hack. Instruments don't issue error return codes when JS exceptions occur
         raise "Instruments run error" if (out.match /JavaScript error/) || (out.match /Instruments\ .{0,5}\ Error\ :/ )
