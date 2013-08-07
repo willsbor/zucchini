@@ -1,13 +1,11 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require 'version'
-require 'date'
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'zucchini/version'
 
 Gem::Specification.new do |s|
   s.name        = "zucchini-ios"
   s.version     = Zucchini::VERSION
-  s.date        = Date.today.to_s
-  s.platform    = Gem::Platform::RUBY
   s.authors     = ["Vasily Mikhaylichenko", "Rajesh Kumar", "Kevin O'Neill"]
   s.license     = "BSD"
   s.email       = ["vaskas@zucchiniframework.org"]
@@ -17,7 +15,6 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency     'clamp'
   s.add_development_dependency 'rspec'
-  s.add_development_dependency 'watchr'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'coveralls'
 
@@ -26,5 +23,5 @@ Gem::Specification.new do |s|
   s.executables   = %w(zucchini)
   s.require_paths = ["lib"]
 
-  s.required_ruby_version = '>= 1.9.2'
+  s.required_ruby_version = '>= 1.9.3'
 end

@@ -1,5 +1,5 @@
 require 'erb'
-require 'lib/report/view'
+require 'zucchini/report/view'
 
 class Zucchini::Report
 
@@ -11,7 +11,7 @@ class Zucchini::Report
   def text
     @features.map do |f|
       failed_list = f.stats[:failed].empty? ? "" : "\n\nFailed:\n" + f.stats[:failed].map { |s| "   #{s.file_name}: #{s.diff[1]}" }.join
-      summary     = f.stats.map { |key, set| "#{set.length.to_s} #{key}" }.join(", ")
+      summary = f.stats.map { |key, set| "#{set.length.to_s} #{key}" }.join(", ")
 
       "#{f.name}:\n#{summary}#{failed_list}"
     end.join("\n\n")
@@ -19,7 +19,7 @@ class Zucchini::Report
 
   def html
     @html ||= begin
-      template_path = File.expand_path("#{File.dirname(__FILE__)}/report/template.erb")
+      template_path = File.expand_path("#{File.dirname(__FILE__)}/report/template.erb.html")
 
       view = Zucchini::ReportView.new(@features, @ci)
       compiled = (ERB.new(File.open(template_path).read)).result(view.get_binding)
@@ -37,5 +37,4 @@ class Zucchini::Report
   def open; system "open #{@html_path}"; end
 
   def log(buf); puts buf; end
-
 end
