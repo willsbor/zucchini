@@ -1,13 +1,10 @@
 require 'coveralls'
 require 'simplecov'
 
-if ENV['COVERAGE'] == 'coveralls'
-  Coveralls.wear!
-else
-  SimpleCov.start do
-    add_filter "/spec/"
-  end
+SimpleCov.start do
+  add_filter "/spec/"
 end
+Coveralls.wear! if ENV['COVERAGE'] == 'coveralls'
 
 require 'clamp'
 require 'fileutils'
