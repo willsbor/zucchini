@@ -1,3 +1,10 @@
+## 0.6.2 / 2013-08-07
+* Implement screen specific masks - [@phatmann][], [#24][]
+* Rearrange source files in a more conventional gem way - [@vaskas][], [#25][]
+* Fix report UI in Firefox - [@vaskas][], [#26][]
+* Do not squash landscape screenshots in the report - [@phatmann][]
+* Remove 1 second delay after screen is loaded - [@phatmann][], [#23][]
+
 ## 0.6.1 / 2013-07-28
 * Add `Rotate device` screen action - [@phatmann][], [#19][]
 * Fix screenshot code to work with the latest version of ImageMagick - [@phatmann][], [#17][]
@@ -42,6 +49,10 @@
 [#16]: https://github.com/zucchini-src/zucchini/issues/16
 [#17]: https://github.com/zucchini-src/zucchini/issues/17
 [#19]: https://github.com/zucchini-src/zucchini/issues/19
+[#23]: https://github.com/zucchini-src/zucchini/issues/23
+[#24]: https://github.com/zucchini-src/zucchini/issues/24
+[#25]: https://github.com/zucchini-src/zucchini/issues/25
+[#26]: https://github.com/zucchini-src/zucchini/issues/26
 
 [@Jaco-Pretorius]: https://github.com/Jaco-Pretorius
 [@NathanSudell]: https://github.com/NathanSudell
