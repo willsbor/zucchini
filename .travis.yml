@@ -1,6 +1,16 @@
 language: ruby
+
+env:
+  - COVERAGE=coveralls
+
 rvm:
   - 1.9.3
-  - 1.9.2
+  - 2.0.0
+  - rbx-19mode
+
+matrix:
+  allow_failures:
+      - rvm: rbx-19mode
+
 before_install:
   - npm install coffee-script
