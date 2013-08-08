@@ -1,18 +1,13 @@
 Function::bind = (context) ->
   return this unless context
   fun = this
-  ->
-    fun.apply context, arguments
+  -> fun.apply context, arguments
 
 String::camelCase = ->
-  @replace /([\-\ ][A-Za-z])/g, ($1) ->
-    $1.toUpperCase().replace /[\-\ ]/g, ""
+  @replace /([\-\ ][A-Za-z])/g, ($1) -> $1.toUpperCase().replace /[\-\ ]/g, ""
 
-extend = (obj, mixin) ->
-  obj[name] = method for name, method of mixin
-  obj
-
-puts = (text) -> UIALogger.logMessage text
+extend = $.extend
+puts   = (text) -> UIALogger.logMessage text
 
 # Instruments 4.5 crash when a JS primitive is thrown
 # http://apple.stackexchange.com/questions/69484/unknown-xcode-instruments-crash
@@ -25,28 +20,23 @@ target = UIATarget.localTarget()
 app    = target.frontMostApp()
 view   = app.mainWindow()
 
-UIAElement.prototype.$ = (name) ->
-  target.pushTimeout(0)
-  elem = null
-  for el in this.elements()
-    elem = if el.name() == name then el else el.$(name)
-    break if elem
-  target.popTimeout()
-  elem
+UIAElement.prototype.$ = (name) -> $('#' + name).first()
 
-target.waitForElement = (element) ->
-  return false unless element
-  found = false
+target.waitForElement = (fn) ->
+  found   = false
   counter = 0
+  element = null
+
   while not found and (counter < 10)
+    element = $(fn()).first()
     if element.isValid() and element.isVisible()
       found = true
     else
       @delay 0.5
       counter++
-  return found
+  if found then element else false
 
-isNullElement = (elem) -> elem.toString() == "[object UIAElementNil]"
+isNullElement = (elem) -> elem.toString() is "[object UIAElementNil]"
 
 screensCount = 0
 target.captureScreenWithName_ = target.captureScreenWithName
@@ -76,10 +66,7 @@ class Zucchini
         raise "Screen '#{screenName}' not defined"
 
       if screen.anchor
-        element = screen.anchor()
-        found = target.waitForElement(element)
-
-        if found
+        if target.waitForElement(screen.anchor)
           puts "Found anchor for screen '#{screenName}'"
         else
           raise "Could not find anchor for screen '#{screenName}'"

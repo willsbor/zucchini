@@ -11,34 +11,36 @@ class Screen
     puts "Screenshot of screen '#{@name}' taken"
     target.captureScreenWithName("#{orientation}_#{@name}-screen_#{screenshot_name}")
 
+  element: (name) ->
+    fn = @elements[name] || -> $('#' + name)
+
+    unless el = target.waitForElement(fn)
+      raise "Element '#{name}' was not found on '#{@name}'"
+    el
+
   constructor: (@name) ->
 
   elements: {}
-  actions :
-    'Take a screenshot$' : ->
-      @takeScreenshot(@name)
+  actions:
+    'Take a screenshot$': -> @takeScreenshot(@name)
 
-    'Take a screenshot named "([^"]*)"$' : (screenshot_name) ->
-      @takeScreenshot(screenshot_name)
+    'Take a screenshot named "([^"]*)"$': (name) -> @takeScreenshot(name)
 
-    'Tap "([^"]*)"$' : (element) ->
-      raise "Element '#{element}' not defined for the screen '#{@name}'" unless @elements[element]
-      @elements[element]().tap()
+    'Show elements' : -> view.logElementTree()
 
-    'Confirm "([^"]*)"$' : (element) ->
-      @actions['Tap "([^"]*)"$'].bind(this)(element)
+    'Show elements for "([^"]*)"$': (name) -> @element(name).logElementTree()
 
-    'Wait for "([^"]*)" second[s]*$' : (seconds) ->
-      target.delay(seconds)
+    'Tap "([^"]*)"$': (name) -> @element(name).tap()
 
-    'Type "([^"]*)" in the "([^"]*)" field$': (text,element) ->
-      raise "Element '#{element}' not defined for the screen '#{@name}'" unless @elements[element]
-      @elements[element]().tap()
+    'Confirm "([^"]*)"$': (element) -> @actions['Tap "([^"]*)"$'].bind(this)(element)
+
+    'Wait for "([^"]*)" second[s]*$': (seconds) -> target.delay(seconds)
+
+    'Type "([^"]*)" in the "([^"]*)" field$': (text, name) ->
+      @element(name).tap()
       app.keyboard().typeString text
 
-    'Clear the "([^"]*)" field$': (element) ->
-      raise "Element '#{element}' not defined for the screen '#{@name}'" unless @elements[element]
-      @elements[element]().setValue ""
+    'Clear the "([^"]*)" field$': (element) -> @element(name).setValue ''
 
     'Cancel the alert$' : ->
       alert = app.alert()
@@ -68,9 +70,6 @@ class Screen
       # Set Year
       view.pickers()[0].wheels()[2].selectValue(dateParts[3])
 
-    'Show elements' : ->
-      view.logElementTree()
-
     'Rotate device to "([^"]*)"$': (orientation) ->
-      orientation = if orientation == "landscape" then UIA_DEVICE_ORIENTATION_LANDSCAPERIGHT else UIA_DEVICE_ORIENTATION_PORTRAIT
+      orientation = if orientation is "landscape" then UIA_DEVICE_ORIENTATION_LANDSCAPERIGHT else UIA_DEVICE_ORIENTATION_PORTRAIT
       target.setDeviceOrientation(orientation)
