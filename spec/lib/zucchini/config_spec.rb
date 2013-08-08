@@ -28,7 +28,7 @@ describe Zucchini::Config do
    
     context "device not present in config.yml" do
       it "should raise an error" do
-        expect { Zucchini::Config.device("My Android Phone")}.to raise_error "Device not listed in config.yml"
+        expect { Zucchini::Config.device("My Android Phone")}.to raise_error "Device 'My Android Phone' not listed in config.yml"
       end
     end
 
