@@ -55,7 +55,12 @@ target.captureScreenWithName = (screenName) ->
   @captureScreenWithName_ screensCountText + "_" + screenName
 
 class Zucchini
-  @run: (featureText) ->
+  @run: (featureText, initial_orientation) ->
+    if initial_orientation == 'portrait'
+      target.setDeviceOrientation UIA_DEVICE_ORIENTATION_PORTRAIT
+    else if initial_orientation == 'landscape'
+      target.setDeviceOrientation UIA_DEVICE_ORIENTATION_LANDSCAPERIGHT
+
     sections = featureText.trim().split(/\n\s*\n/)
 
     for section in sections

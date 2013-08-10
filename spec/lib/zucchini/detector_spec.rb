@@ -18,7 +18,7 @@ describe Zucchini::Detector do
 
     context "device hasn't been found" do
       before { ENV['ZUCCHINI_DEVICE'] = 'My Android Phone' }
-      it     { should raise_error "Device not listed in config.yml" }
+      it     { should raise_error "Device 'My Android Phone' not listed in config.yml" }
     end
   end
 

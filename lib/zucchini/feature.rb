@@ -45,11 +45,11 @@ class Zucchini::Feature
     end
   end
 
-  def compile_js
+  def compile_js(initial_orientation=0)
     zucchini_base_path = File.expand_path(File.dirname(__FILE__))
 
     feature_text = File.open("#{@path}/feature.zucchini").read.gsub(/\#.+[\z\n]?/,"").gsub(/\n/, "\\n")
-    File.open("#{run_data_path}/feature.coffee", "w+") { |f| f.write("Zucchini.run('#{feature_text}')") }
+    File.open("#{run_data_path}/feature.coffee", "w+") { |f| f.write("Zucchini.run('#{feature_text}', '#{initial_orientation.to_s}')") }
 
     cs_paths  = "#{zucchini_base_path}/uia #{@path}/../support/screens"
     cs_paths += " #{@path}/../support/lib" if File.exists?("#{@path}/../support/lib")
@@ -65,10 +65,17 @@ class Zucchini::Feature
   def collect
     with_setup do
       `rm -rf #{run_data_path}/*`
-      compile_js
+      
+      if @device[:name] == "iOS Simulator" || @device[:simulator]
+        device_params = ""
+        set_simulator_device(@device[:simulator]) if @device[:simulator].is_a?(String)
+        initial_orientation = @device[:orientation]
+      else
+        device_params = "-w #{@device[:udid]}"
+      end 
 
-      device_params = (@device[:name] == "iOS Simulator") ? "" : "-w #{@device[:udid]}"
-
+      compile_js(initial_orientation)
+      
       begin
         out = `instruments #{device_params} -t "#{@template}" "#{Zucchini::Config.app}" -e UIASCRIPT "#{run_data_path}/feature.js" -e UIARESULTSPATH "#{run_data_path}" 2>&1`
         puts out
@@ -106,6 +113,17 @@ class Zucchini::Feature
       reference_file_path = "#{File.dirname(s.file_path)}/../../#{reference_type}/#{device[:screen]}/#{s.file_name}"
       FileUtils.mkdir_p File.dirname(reference_file_path)
       @succeeded = FileUtils.copy_file(s.file_path, reference_file_path)
+    end
+  end
+
+  private
+  def set_simulator_device(simulated_device)
+    current_simulated_device = `defaults read com.apple.iphonesimulator "SimulateDevice"`.chomp
+
+    if current_simulated_device != simulated_device
+      simulator_pid = `ps ax|awk '/[i]Phone Simulator.app\\/Contents\\/MacOS\\/iPhone Simulator/{print $1}'`.chomp
+      Process.kill('INT', simulator_pid.to_i) unless simulator_pid.empty?
+      `defaults write com.apple.iphonesimulator "SimulateDevice" '"#{simulated_device}"'`
     end
   end
 end
