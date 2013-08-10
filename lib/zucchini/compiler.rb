@@ -5,7 +5,7 @@ module Zucchini
     #
     # @param orientation [String] initial device orientation, `portrait` or `landscape`
     # @return [String] path to a compiled js file
-    def compile_js(orientation = 'portrait')
+    def compile_js(orientation)
       js_path  = "#{run_data_path}/feature.js"
       lib_path = File.expand_path(File.dirname(__FILE__))
 
