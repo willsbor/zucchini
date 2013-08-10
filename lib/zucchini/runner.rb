@@ -11,8 +11,7 @@ class Zucchini::Runner < Zucchini::Detector
     compare_threads = {}
 
     features.each do |f|
-      f.device   = @device
-      f.template = @template
+      f.device = @device
 
       if    collect? then f.collect
       elsif compare? then f.compare
