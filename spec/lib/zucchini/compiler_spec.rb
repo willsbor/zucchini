@@ -7,7 +7,7 @@ describe Zucchini::Compiler do
   after(:all) { FileUtils.rm_rf Dir.glob("#{path}/run_data/feature.*") }
 
   describe "#compile_js" do
-    before { Zucchini::Compiler.js(feature) }
+    before { feature.compile_js 'landscape' }
 
     it "should strip comments from the feature file" do
       File.read("#{feature.run_data_path}/feature.coffee").index('#').should be_nil
@@ -25,11 +25,15 @@ describe Zucchini::Compiler do
       end
 
       it "should include Zucchini runtime" do
-        should match /Zucchini.run = /
+        should match /Zucchini = function/
       end
 
       it "should include custom libraries from support/lib" do
         should match /Helpers.example = /
+      end
+
+      it "should include screen orientation" do
+        should match /Zucchini\(.+\'landscape\'\)/
       end
     end
   end

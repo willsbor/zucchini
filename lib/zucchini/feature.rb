@@ -1,4 +1,6 @@
 class Zucchini::Feature
+  include Zucchini::Compiler
+
   attr_accessor :path
   attr_accessor :device
   attr_accessor :template
@@ -78,7 +80,7 @@ class Zucchini::Feature
       compile_js(initial_orientation)
 
       begin
-        out = `instruments #{device_params} -t "#{@template}" "#{Zucchini::Config.app}" -e UIASCRIPT "#{js_path}" -e UIARESULTSPATH "#{run_data_path}" 2>&1`
+        out = `instruments #{device_params} -t "#{@template}" "#{Zucchini::Config.app}" -e UIASCRIPT "#{compile_js}" -e UIARESULTSPATH "#{run_data_path}" 2>&1`
         puts out
         # Hack. Instruments don't issue error return codes when JS exceptions occur
         raise "Instruments run error" if (out.match /JavaScript error/) || (out.match /Instruments\ .{0,5}\ Error\ :/ )
