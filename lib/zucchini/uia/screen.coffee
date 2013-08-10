@@ -1,5 +1,6 @@
 class Screen
   takeScreenshot: (screenshotName) ->
+    $.delay 0.5
     orientation = switch app.interfaceOrientation()
       when 0 then 'Unknown'
       when 1 then 'Portrait'
