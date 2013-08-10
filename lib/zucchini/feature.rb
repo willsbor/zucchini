@@ -65,14 +65,11 @@ class Zucchini::Feature
   def collect
     with_setup do
       `rm -rf #{run_data_path}/*`
-    
-      simulator_name_pattern = /iOS Simulator(-(?<simulated_device>(?!(portrait|landscape}))[^-]*))?(-(?<initial_orientation>portrait|landscape))?/
-      simulator_params = simulator_name_pattern.match(@device[:name])
       
-      if simulator_params
+      if @device[:name] == "iOS Simulator" || @device[:simulator]
         device_params = ""
-        set_simulator_device(simulator_params[:simulated_device]) if simulator_params[:simulated_device]
-        initial_orientation = simulator_params[:initial_orientation]
+        set_simulator_device(@device[:simulator]) if @device[:simulator].is_a?(String)
+        initial_orientation = @device[:orientation]
       else
         device_params = "-w #{@device[:udid]}"
       end 
