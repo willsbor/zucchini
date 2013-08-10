@@ -41,7 +41,7 @@ class Screen
       @element(name).tap()
       app.keyboard().typeString text
 
-    'Clear the "([^"]*)" field$': (element) -> @element(name).setValue ''
+    'Clear the "([^"]*)" field$': (name) -> @element(name).setValue ''
 
     'Cancel the alert$' : ->
       alert = app.alert()
