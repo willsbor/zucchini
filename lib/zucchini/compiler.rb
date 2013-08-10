@@ -5,7 +5,7 @@ module Zucchini
     def feature_coffee(file, cs_path)
       File.open(cs_path, "w+") do |f|
         feature_text = File.read(file).gsub(/\#.+[\z\n]?/,"").gsub(/\n/, "\\n")
-        f.write "Zucchini.run('#{feature_text}')"
+        f.write "Zucchini('#{feature_text}')"
       end
       cs_path
     end
