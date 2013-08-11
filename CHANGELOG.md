@@ -1,4 +1,4 @@
-## 0.7.0 / 2013-08-11
+## 0.7.1 / 2013-08-12
 * Compile config file with ERB - [@vaskas][], [#30][]
 * Reduce gem size by not bundling specs with their sample setups
 
