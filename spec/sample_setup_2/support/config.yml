@@ -8,8 +8,3 @@ devices:
   Default Device:
     screen : low_ios5
 
-
-servers:
-  backend:
-    host: 192.168.1.2
-    port: 8080

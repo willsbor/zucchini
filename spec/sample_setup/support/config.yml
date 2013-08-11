@@ -8,9 +8,5 @@ devices:
   Default Device:
     screen : low_ios5
     default: true
+    UDID: <%= "something" + "_from_erb" %>
 
-
-servers:
-  backend:
-    host: 192.168.1.2
-    port: 8080

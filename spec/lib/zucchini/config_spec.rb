@@ -1,7 +1,14 @@
 require 'spec_helper'
 
 describe Zucchini::Config do
-  describe "app" do
+  describe ".base_path=" do
+    it "should process the file through ERB" do
+      Zucchini::Config.base_path = "spec/sample_setup"
+      Zucchini::Config.device[:udid].should eql 'something_from_erb'
+    end
+  end
+
+  describe ".app" do
     context "app environment variable" do
       before(:all) { ENV['ZUCCHINI_APP'] = 'foo.app' }
 
@@ -17,7 +24,7 @@ describe Zucchini::Config do
     end
   end
 
-  describe "device" do
+  describe ".device" do
     before(:all) { Zucchini::Config.base_path = "spec/sample_setup" }
 
     context "device present in config.yml" do
@@ -34,7 +41,7 @@ describe Zucchini::Config do
 
     context "default device" do
       it "should use default device if device name argument is nil" do
-        Zucchini::Config.device(nil).should eq({:name =>"Default Device", :screen =>"low_ios5", :udid => nil, :simulator=>nil, :orientation=> 'portrait'})
+        Zucchini::Config.device(nil)[:name].should eql "Default Device"
       end
 
       it "should raise error if no default device provided" do

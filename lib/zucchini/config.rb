@@ -9,7 +9,7 @@ module Zucchini
 
     def self.base_path=(base_path)
       @@base_path = base_path
-      @@config    = YAML::load_file("#{base_path}/support/config.yml")
+      @@config    = YAML::load(ERB::new(File::read("#{base_path}/support/config.yml")).result)
       @@default_device_name = nil
       devices.each do |device_name, device|
         if device['default']
@@ -42,7 +42,7 @@ module Zucchini
       @@default_device_name
     end
 
-    def self.device(device_name)
+    def self.device(device_name = nil)
       device_name ||= @@default_device_name
       raise "Neither default device nor ZUCCHINI_DEVICE environment variable was set" unless device_name
       raise "Device '#{device_name}' not listed in config.yml" unless (device = devices[device_name])
