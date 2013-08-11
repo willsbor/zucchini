@@ -1,4 +1,8 @@
 ## 0.7.0 / 2013-08-11
+* Compile config file with ERB - [@vaskas][], [#30][]
+* Reduce gem size by not bundling specs with their sample setups
+
+## 0.7.0 / 2013-08-11
 * Integrate mechanic.js - [@vaskas][], [#29][]
 * Configure simulator with device and orientation - [@phatmann][], [#27][]
 
@@ -59,6 +63,7 @@
 [#26]: https://github.com/zucchini-src/zucchini/issues/26
 [#27]: https://github.com/zucchini-src/zucchini/issues/27
 [#29]: https://github.com/zucchini-src/zucchini/issues/29
+[#30]: https://github.com/zucchini-src/zucchini/issues/30
 
 [@Jaco-Pretorius]: https://github.com/Jaco-Pretorius
 [@NathanSudell]: https://github.com/NathanSudell
