@@ -1,3 +1,7 @@
+## 0.7.0 / 2013-08-11
+* Integrate mechanic.js - [@vaskas][], [#29][]
+* Configure simulator with device and orientation - [@phatmann][], [#27][]
+
 ## 0.6.2 / 2013-08-07
 * Implement screen specific masks - [@phatmann][], [#24][]
 * Rearrange source files in a more conventional gem way - [@vaskas][], [#25][]
@@ -53,6 +57,8 @@
 [#24]: https://github.com/zucchini-src/zucchini/issues/24
 [#25]: https://github.com/zucchini-src/zucchini/issues/25
 [#26]: https://github.com/zucchini-src/zucchini/issues/26
+[#27]: https://github.com/zucchini-src/zucchini/issues/27
+[#29]: https://github.com/zucchini-src/zucchini/issues/29
 
 [@Jaco-Pretorius]: https://github.com/Jaco-Pretorius
 [@NathanSudell]: https://github.com/NathanSudell
