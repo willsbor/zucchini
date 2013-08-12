@@ -1,6 +1,6 @@
 class Zucchini::Approver < Zucchini::Detector
   parameter "PATH", "a path to feature or a directory"
-  
+
   option %W(-p --pending), :flag, "update pending screenshots instead"
 
   def run_command
