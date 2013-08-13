@@ -1,44 +1,50 @@
 class Zucchini::Screenshot
-  FILE_NAME_PATTERN = /^\d\d_((?<orientation>Unknown|Portrait|PortraitUpsideDown|LandscapeLeft|LandscapeRight|FaceUp|FaceDown)_)?((?<screen>.*)-screen_)?.*$/
+  FILE_NAME_PATTERN = /^(?<sequence_number>\d\d)(_(?<orientation>Unknown|Portrait|PortraitUpsideDown|LandscapeLeft|LandscapeRight|FaceUp|FaceDown))?_(?<screenshot_name>[^\.]*)\.png$/
 
   attr_reader   :file_path, :original_file_path, :file_name
   attr_accessor :diff, :mask_paths, :masked_paths, :test_path, :diff_path
 
-  def initialize(file_path, device, unmatched_pending = false)
+  def initialize(file_path, device, log, unmatched_pending = false)
     @original_file_path = file_path
-    @file_path = file_path.dup
-
+    @file_path          = file_path.dup
+    @log = log
     @device = device
-
-    match = FILE_NAME_PATTERN.match(File.basename(@file_path))
+    
+    @file_name = File.basename(@file_path)
+    match = FILE_NAME_PATTERN.match(@file_name)
 
     if match
-      @orientation = match[:orientation]
-      @screen      = match[:screen]
-      @file_path.gsub!("_#{@screen}-screen", '') if @screen
-      @file_path.gsub!("_#{@orientation}", '')   if @orientation
+      @screenshot_name      = match[:screenshot_name]
+      @sequence_number      = match[:sequence_number].to_i
+      @rotation_orientation = match[:orientation]
+
+      @file_path.sub!("_#{@rotation_orientation}", '') if @rotation_orientation
+      @file_name = File.basename(@file_path)
     end
 
-    @file_name = File.basename(@file_path)
-
     unless unmatched_pending
-      file_base_path = File.dirname(@file_path)
+      run_data_path      = File.dirname(@file_path)
+      support_masks_path = File.join(run_data_path, '../../../support/masks')
 
-      support_masks_path = "#{file_base_path}/../../../support/masks"
+      if @log
+        metadata     = @log.screenshot_metadata(@sequence_number)
+        @orientation = metadata[:orientation]
+        @screen      = metadata[:screen]
+      end
 
       @mask_paths = {
-        :global   => mask_path("#{support_masks_path}/#{@device[:screen]}"),
-        :specific => mask_path("#{file_base_path}/../../masks/#{@device[:screen]}/#{@file_name}".sub('.png', ''))
+        :global   => mask_path(File.join(support_masks_path, "#{@device[:screen]}")),
+        :specific => mask_path(File.join(run_data_path, "../../masks/#{@device[:screen]}/#{@file_name.sub('.png', '')}"))
       }
 
       if @screen
-        @mask_paths[:screen] = mask_path("#{support_masks_path}/#{@screen.to_s.underscore}")
+        @mask_paths[:screen] = mask_path(File.join(support_masks_path, "#{@screen.to_s.underscore}"))
       end
 
-      masked_path   = "#{file_base_path}/../Masked/actual/#{@file_name}"
+      masked_path   = File.join(run_data_path, "../Masked/actual/#{@file_name}")
       @masked_paths = { :global => masked_path, :screen => masked_path, :specific => masked_path }
 
-      @diff_path = "#{file_base_path}/../Diff/#{@file_name}"
+      @diff_path = "#{run_data_path}/../Diff/#{@file_name}"
     end
 
     preprocess
@@ -93,17 +99,17 @@ class Zucchini::Screenshot
   end
 
   def mask_reference
-    file_base_path = File.dirname(@file_path)
+    run_data_path = File.dirname(@file_path)
     %W(reference pending).each do |reference_type|
-      reference_file_path = "#{file_base_path}/../../#{reference_type}/#{@device[:screen]}/#{@file_name}"
-      output_path         = "#{file_base_path}/../Masked/#{reference_type}/#{@file_name}"
+      reference_file_path = "#{run_data_path}/../../#{reference_type}/#{@device[:screen]}/#{@file_name}"
+      output_path         = "#{run_data_path}/../Masked/#{reference_type}/#{@file_name}"
 
       if File.exists?(reference_file_path)
         @test_path = output_path
         @pending   = (reference_type == "pending")
         FileUtils.mkdir_p(File.dirname(output_path))
 
-        reference = Zucchini::Screenshot.new(reference_file_path, @device)
+        reference = Zucchini::Screenshot.new(reference_file_path, @device, @log)
         reference.mask_paths  = @mask_paths
         reference.masked_paths = { :global => output_path, :screen => output_path, :specific => output_path }
         reference.mask
@@ -145,7 +151,7 @@ class Zucchini::Screenshot
   end
 
   def rotate
-    degrees = case @orientation
+    degrees = case @rotation_orientation
     when 'LandscapeRight' then 90
     when 'LandscapeLeft' then 270
     when 'PortraitUpsideDown' then 180

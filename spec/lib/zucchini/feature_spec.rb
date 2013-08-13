@@ -22,7 +22,7 @@ describe Zucchini::Feature do
         # Copying some random image to run screenshots.
         @screenshot_path = "#{feature.path}/run_data/Run\ 1/screenshot.png"
         FileUtils.mkdir_p(File.dirname(@screenshot_path))
-        FileUtils.copy_file("./spec/sample_setup/feature_one/reference/retina_ios5/06_sign up_spinner.png", @screenshot_path)
+        FileUtils.copy_file("./spec/sample_setup/feature_one/reference/retina_ios5/01_sign up_spinner.png", @screenshot_path)
       end
 
       it "should copy screenshot to reference directory" do

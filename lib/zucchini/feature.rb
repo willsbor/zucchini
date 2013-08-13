@@ -24,7 +24,7 @@ class Zucchini::Feature
 
   def unmatched_pending_screenshots
     Dir.glob("#{@path}/pending/#{@device[:screen]}/[^0-9]*.png").sort.map do |file|
-      screenshot = Zucchini::Screenshot.new(file, nil, true)
+      screenshot = Zucchini::Screenshot.new(file, nil, nil, true)
       screenshot.test_path = File.expand_path(file)
       screenshot.diff = [:pending, "unmatched"]
       screenshot
@@ -32,8 +32,10 @@ class Zucchini::Feature
   end
 
   def screenshots(process = true)
+    log = Zucchini::Log.new(run_data_path) if process
+    
     @screenshots ||= Dir.glob("#{run_data_path}/Run\ 1/*.png").sort.map do |file|
-      screenshot = Zucchini::Screenshot.new(file, @device)
+      screenshot = Zucchini::Screenshot.new(file, @device, log)
       if process
         screenshot.mask
         screenshot.compare
@@ -63,6 +65,7 @@ class Zucchini::Feature
         @js_exception = true if (out.match /JavaScript error/) || (out.match /Instruments\ .{0,5}\ Error\ :/ )
       ensure
         `rm -rf instrumentscli*.trace`
+        Zucchini::Log.parse_automation_log(run_data_path)
       end
     end
   end

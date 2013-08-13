@@ -1,0 +1,9 @@
+---
+- :screen: splash
+  :orientation: LandscapeRight
+- :screen: splash
+  :orientation: LandscapeRight
+- :screen: splash2
+  :orientation: LandscapeRight
+- :screen: splash
+  :orientation: Portrait

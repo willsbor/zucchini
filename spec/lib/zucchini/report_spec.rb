@@ -11,7 +11,7 @@ describe Zucchini::Report do
 
   let(:feature) do
     fake_screenshots = (1..7).to_a.map do |num|
-      screenshot = Zucchini::Screenshot.new("#{num}.screen_#{num}.png", device)
+      screenshot = Zucchini::Screenshot.new("#{num}.screen_#{num}.png", device, nil)
       screenshot.diff = (num > 3) ? [:passed, nil] : [:failed, "120"]
       screenshot
     end
