@@ -7,14 +7,18 @@ def md5(blob)
 end
 
 describe Zucchini::Screenshot do
+  let (:device)             { { :name => "iPhone 4S", :screen => "retina_ios5", :udid => "rspec987654" } }
+  let (:device2)            { { :name => "iPhone 3G", :screen => "low_ios6", :udid => "rspec987655" } }
+  let (:screen)             { "splash" }
+  let (:base_path)          { "spec/sample_setup/feature_one" }
+  let (:screenshot1_path)   { "#{base_path}/run_data/Run\ 1/06_splash-screen_sign\ up_spinner.png" }
+  let (:screenshot2_path)   { "#{base_path}/run_data/Run\ 1/07_LandscapeRight_splash-screen_sign\ up_spinner.png" }
+  let (:screenshot3_path)   { "#{base_path}/run_data/Run\ 1/08_LandscapeRight_splash2-screen_sign\ up_spinner2.png" }
+  let (:screenshot4_path)   { "#{base_path}/run_data/Run\ 1/09_Portrait_splash-screen_sign\ up_spinner.png" }
+
   describe "general" do
-    let (:device)             { { :name => "iPhone 4S", :screen => "retina_ios5", :udid => "rspec987654" } }
-    let (:screen)             { "splash" }
-    let (:base_path)          { "spec/sample_setup/feature_one" }
-    let (:original_path)      { "#{base_path}/run_data/Run\ 1/06_splash-screen_sign\ up_spinner.png" }
-    
     before do
-      @screenshot = Zucchini::Screenshot.new(original_path, device)
+      @screenshot = Zucchini::Screenshot.new(screenshot1_path, device)
       @screenshot.masked_paths = {
         :global   => "#{base_path}/global_masked.png",
         :screen   => "#{base_path}/screen_masked.png",
@@ -23,7 +27,7 @@ describe Zucchini::Screenshot do
     end
 
     after do 
-      FileUtils.mv(@screenshot.file_path, original_path) if File.exists?(@screenshot.file_path)
+      FileUtils.mv(@screenshot.file_path, screenshot1_path) if File.exists?(@screenshot.file_path)
       
       @screenshot.masked_paths.each do |k, path|
         FileUtils.rm(path) if File.exists?(path)
@@ -68,14 +72,14 @@ describe Zucchini::Screenshot do
       end
 
       it "should not apply a screen mask if it does not exist" do
-        @screenshot.masks_paths[:screen] = nil
+        @screenshot.mask_paths[:screen] = nil
         @screenshot.mask
         File.exists?(@screenshot.masked_paths[:screen]).should_not be true
         checksums[:global_masked].should_not be_equal checksums[:original]
       end
 
       it "should not apply a specific mask if it does not exist" do
-        @screenshot.masks_paths[:specific] = nil
+        @screenshot.mask_paths[:specific] = nil
         @screenshot.mask
         File.exists?(@screenshot.masked_paths[:specific]).should_not be true
         checksums[:global_masked].should_not be_equal checksums[:original]
@@ -88,7 +92,7 @@ describe Zucchini::Screenshot do
         checksums[:specific_masked].should_not be_equal checksums[:screen_masked]
         checksums[:specific_masked].should_not be_equal checksums[:global_masked]
       end
-    end                                                        
+    end                                                     
     
     describe "compare" do
       context "images are identical" do
@@ -111,7 +115,7 @@ describe Zucchini::Screenshot do
         it "should have a failed indicator in the diff with no screen mask" do
           @screenshot.stub!(:mask_reference)
           @screenshot.test_path = "#{base_path}/reference/#{device[:screen]}/06_sign\ up_spinner_error.png"
-          @screenshot.masks_paths[:screen] = nil
+          @screenshot.mask_paths[:screen] = nil
           @screenshot.mask
           @screenshot.compare
           @screenshot.diff.should eq [:failed, "3017"]
@@ -130,6 +134,68 @@ describe Zucchini::Screenshot do
     end
   end
 
+  describe 'mask paths' do
+    let(:screenshot1)  {Zucchini::Screenshot.new(screenshot1_path, device)}
+    let(:screenshot2)  {Zucchini::Screenshot.new(screenshot2_path, device)}
+    let(:screenshot3)  {Zucchini::Screenshot.new(screenshot3_path, device2)}
+    let(:screenshot4)  {Zucchini::Screenshot.new(screenshot4_path, device)}
+
+    it "should have correct global mask path with no orientation" do
+      screenshot1.mask_paths[:global].should include 'retina_ios5'
+    end
+
+    it "should have correct screen mask path with no orientation" do
+      screenshot1.mask_paths[:screen].should include 'splash'
+    end
+
+    it "should have correct specific mask path with no orientation" do
+      screenshot1.mask_paths[:specific].should include 'spinner'
+    end
+
+    it "should have correct global mask path with landscape orientation and mask available" do
+      screenshot2.mask_paths[:global].should include 'landscape'
+    end
+
+    it "should have correct screen mask path with landscape orientation and mask available" do
+      screenshot2.mask_paths[:screen].should include 'landscape'
+    end
+
+    it "should have correct specific mask path with landscape orientation and mask available" do
+      screenshot2.mask_paths[:specific].should include 'landscape'
+    end
+
+    it "should have correct global mask path with portrait orientation and mask available" do
+      screenshot4.mask_paths[:global].should include 'portrait'
+    end
+
+    it "should have correct screen mask path with portrait orientation and mask available" do
+      screenshot4.mask_paths[:screen].should include 'portrait'
+    end
+
+    it "should have correct specific mask path with portrait orientation and mask available" do
+      screenshot4.mask_paths[:specific].should include 'portrait'
+    end
+
+    it "should have correct global mask path with landscape orientation and no mask available" do
+      screenshot3.mask_paths[:global].should_not include 'landscape'
+    end
+
+    it "should have correct screen mask path with landscape orientation and no mask available" do
+      screenshot3.mask_paths[:screen].should_not include 'landscape'
+    end
+
+    it "should have correct specific mask path with landscape orientation and no mask available" do
+      screenshot3.mask_paths[:specific].should_not include 'landscape'
+    end
+
+    after do 
+      FileUtils.mv(screenshot1.file_path, screenshot1_path) if File.exists?(screenshot1.file_path)
+      FileUtils.mv(screenshot2.file_path, screenshot2_path) if File.exists?(screenshot2.file_path)
+      FileUtils.mv(screenshot3.file_path, screenshot3_path) if File.exists?(screenshot3.file_path)
+      FileUtils.mv(screenshot4.file_path, screenshot4_path) if File.exists?(screenshot4.file_path)
+    end
+  end
+
   describe "rotate" do
     let (:sample_screenshots_path) { "spec/sample_screenshots" }
     let (:reference_screenshot_path) { File.join(sample_screenshots_path, "rotated/01_Screenshot.png") }
@@ -143,7 +209,7 @@ describe Zucchini::Screenshot do
       screenshot = Zucchini::Screenshot.new(File.join(temp_dir,'01_LandscapeLeft_Screenshot.png'), nil, true)
       File.exists?(File.join(temp_dir,'01_LandscapeLeft_Screenshot.png')).should be_false
       File.exists?(File.join(temp_dir,'01_Screenshot.png')).should be_true
-    end
+     end
 
     it "should rotate the landscape-right screenshot" do
       screenshot = Zucchini::Screenshot.new(File.join(temp_dir,'02_LandscapeRight_Screenshot.png'), nil, true)
@@ -155,6 +221,9 @@ describe Zucchini::Screenshot do
       screenshot = Zucchini::Screenshot.new(File.join(temp_dir,'03_PortraitUpsideDown_Screenshot.png'), nil, true)
       File.exists?(File.join(temp_dir,'02_PortraitUpsideDown_Screenshot.png')).should be_false
       File.exists?(File.join(temp_dir,'03_Screenshot.png')).should be_true
+    end
+
+    it "should choose correct masks" do
     end
 
     after do

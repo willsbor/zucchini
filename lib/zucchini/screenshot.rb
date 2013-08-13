@@ -2,7 +2,7 @@ class Zucchini::Screenshot
   FILE_NAME_PATTERN = /^\d\d_((?<orientation>Unknown|Portrait|PortraitUpsideDown|LandscapeLeft|LandscapeRight|FaceUp|FaceDown)_)?((?<screen>.*)-screen_)?.*$/
 
   attr_reader   :file_path, :original_file_path, :file_name
-  attr_accessor :diff, :masks_paths, :masked_paths, :test_path, :diff_path
+  attr_accessor :diff, :mask_paths, :masked_paths, :test_path, :diff_path
 
   def initialize(file_path, device, unmatched_pending = false)
     @original_file_path = file_path
@@ -26,11 +26,14 @@ class Zucchini::Screenshot
 
       support_masks_path = "#{file_base_path}/../../../support/masks"
 
-      @masks_paths = {
-        :global   => "#{support_masks_path}/#{@device[:screen]}.png",
-        :screen   => "#{support_masks_path}/#{@screen.to_s.underscore}.png",
-        :specific => "#{file_base_path}/../../masks/#{@device[:screen]}/#{@file_name}"
+      @mask_paths = {
+        :global   => mask_path("#{support_masks_path}/#{@device[:screen]}"),
+        :specific => mask_path("#{file_base_path}/../../masks/#{@device[:screen]}/#{@file_name}".sub('.png', ''))
       }
+
+      if @screen
+        @mask_paths[:screen] = mask_path("#{support_masks_path}/#{@screen.to_s.underscore}")
+      end
 
       masked_path   = "#{file_base_path}/../Masked/actual/#{@file_name}"
       @masked_paths = { :global => masked_path, :screen => masked_path, :specific => masked_path }
@@ -101,7 +104,7 @@ class Zucchini::Screenshot
         FileUtils.mkdir_p(File.dirname(output_path))
 
         reference = Zucchini::Screenshot.new(reference_file_path, @device)
-        reference.masks_paths  = @masks_paths
+        reference.mask_paths  = @mask_paths
         reference.masked_paths = { :global => output_path, :screen => output_path, :specific => output_path }
         reference.mask
       end
@@ -109,9 +112,25 @@ class Zucchini::Screenshot
   end
 
   private
+  def mask_path(path)
+    suffix = case @orientation
+    when 'LandscapeRight', 'LandscapeLeft' then '_landscape'
+    when 'Portrait', 'PortraitUpsideDown'  then '_portrait'
+    else
+      ''
+    end
+    
+    file_path = path + suffix + '.png'
+
+    if File.exists?(file_path)
+      file_path
+    else
+      path + '.png'
+    end
+  end
 
   def mask_present?(mask)
-    @masks_paths[mask] && File.exists?(@masks_paths[mask])
+    @mask_paths[mask] && File.exists?(@mask_paths[mask])
   end
 
   def create_masked_paths_dirs
@@ -119,7 +138,7 @@ class Zucchini::Screenshot
   end
 
   def apply_mask(src_path, mask)
-    mask_path   = @masks_paths[mask]
+    mask_path   = @mask_paths[mask]
     dest_path   = @masked_paths[mask]
     `convert -page +0+0 \"#{src_path}\" -page +0+0 \"#{mask_path}\" -flatten \"#{dest_path}\"`
     return dest_path
