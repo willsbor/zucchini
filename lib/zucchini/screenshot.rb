@@ -77,7 +77,7 @@ class Zucchini::Screenshot
       @diff = (out == '0') ? [:passed, nil] : [:failed, out]
       @diff = [:pending, @diff[1]] if @pending
     else
-      @diff = [:failed, "no reference or pending screenshot for #{@device[:screen]}\n"]
+      @diff = [:failed, "no reference or pending screenshot for #{@device[:screen]}"]
     end
   end
 

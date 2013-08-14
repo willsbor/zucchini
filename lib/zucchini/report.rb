@@ -3,9 +3,13 @@ require 'zucchini/report/view'
 
 class Zucchini::Report
 
-  def initialize(features, ci = false, html_path = '/tmp/zucchini_report.html', tap_path = '/tmp/zucchini.t')
-    @features, @ci, @html_path, @tap_path = [features, ci, html_path, tap_path]
-    generate!
+  def initialize(features, ci = false, paths = nil)
+    @paths = paths || {
+      :html => '/tmp/zucchini_report.html',
+      :tap  => '/tmp/zucchini.t'
+    }
+    @features, @ci = [features, ci]
+    generate(@paths)
   end
 
   def tap(report_path)
@@ -29,27 +33,26 @@ class Zucchini::Report
       end
       io.close
     end
-    File.read(report_path)
+    File.read(report_path) + "\nTAP report generated to #{report_path}"
   end
 
   def html(report_path)
-    @html ||= begin
-      template_path = File.expand_path("#{File.dirname(__FILE__)}/report/template.erb.html")
+    template_path = File.expand_path("#{File.dirname(__FILE__)}/report/template.erb.html")
 
-      view = Zucchini::ReportView.new(@features, @ci)
-      compiled = (ERB.new(File.open(template_path).read)).result(view.get_binding)
+    view = Zucchini::ReportView.new(@features, @ci)
+    compiled = (ERB.new(File.open(template_path).read)).result(view.get_binding)
 
-      File.open(report_path, 'w+') { |f| f.write(compiled) }
-      compiled
-    end
+    File.open(report_path, 'w+') { |f| f.write(compiled) }
+
+    "HTML report generated to #{report_path}"
   end
 
-  def generate!
-    log tap(@tap_path)
-    html(@html_path)
+  def generate(paths)
+    log tap  paths[:tap]
+    log html paths[:html]
   end
 
-  def open; system "open #{@html_path}"; end
+  def open; system "open #{@paths[:html]}"; end
 
   def log(buf); puts buf; end
 end
