@@ -7,9 +7,9 @@ class Zucchini::Screenshot
   def initialize(file_path, device, unmatched_pending = false)
     @original_file_path = file_path
     @file_path = file_path.dup
-    
+
     @device = device
-    
+
     match = FILE_NAME_PATTERN.match(File.basename(@file_path))
 
     if match
@@ -43,7 +43,7 @@ class Zucchini::Screenshot
 
   def preprocess
     return if @original_file_path == @file_path
-    
+
     if @orientation
       rotate
     else
@@ -77,7 +77,7 @@ class Zucchini::Screenshot
       @diff = (out == '0') ? [:passed, nil] : [:failed, out]
       @diff = [:pending, @diff[1]] if @pending
     else
-      @diff = [:failed, "no reference or pending screenshot for #{@device[:screen]}\n"]
+      @diff = [:failed, "no reference or pending screenshot for #{@device[:screen]}"]
     end
   end
 
