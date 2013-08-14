@@ -5,6 +5,7 @@ class Zucchini::Feature
   attr_accessor :path
   attr_accessor :device
   attr_accessor :stats
+  attr_accessor :js_exception
 
   attr_reader :succeeded
   attr_reader :name

@@ -30,6 +30,7 @@ class Zucchini::Report
 
           io.puts(out)
         end
+        io.puts '    Bail out! Instruments run error' if f.js_exception
       end
       io.close
     end

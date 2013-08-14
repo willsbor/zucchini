@@ -19,6 +19,7 @@ describe Zucchini::Report do
     feature = Zucchini::Feature.new("/my/sample/feature")
     feature.device = device
     feature.stub!(:screenshots).and_return(fake_screenshots)
+    feature.send('js_exception='.to_sym, true)
     feature
   end
 
@@ -53,6 +54,7 @@ describe Zucchini::Report do
           ok 5 - 5.screen_5.png
           ok 6 - 6.screen_6.png
           ok 7 - 7.screen_7.png
+          Bail out! Instruments run error
     END
     File.read(paths[:tap]).should eq expected
   end
