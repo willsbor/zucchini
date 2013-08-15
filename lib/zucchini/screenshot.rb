@@ -56,11 +56,11 @@ class Zucchini::Screenshot
     create_masked_paths_dirs
     masked_path = apply_mask(@file_path, :global)
 
-    if mask?(:screen)
+    if mask_present?(:screen)
       masked_path = apply_mask(masked_path, :screen)
     end
 
-    if mask?(:specific)
+    if mask_present?(:specific)
       apply_mask(masked_path, :specific)
     end
   end
@@ -109,7 +109,8 @@ class Zucchini::Screenshot
   end
 
   private
-  def mask?(mask)
+
+  def mask_present?(mask)
     @masks_paths[mask] && File.exists?(@masks_paths[mask])
   end
 

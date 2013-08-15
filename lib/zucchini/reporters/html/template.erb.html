@@ -35,7 +35,10 @@
         <dl class="<%= css_class %> <%= css_class == 'failed' ? 'expanded' :'' %> screen">
           <dt><%= s.file_name %></dt>
           <% %W(actual expected difference).each do |type| %>
-          <dd class="<%= s.result_images[type.to_sym] ? '' : 'hidden' %>"><p><%= type.capitalize %></p><img src="<%= s.result_images[type.to_sym] %>"/></dd>
+          <dd class="<%= s.result_images[type.to_sym] ? '' : 'hidden' %>">
+            <p><%= type.capitalize %></p>
+            <img src="<%= s.result_images[type.to_sym] %>"/>
+          </dd>
           <% end %>
         </dl>
         <% end %>
