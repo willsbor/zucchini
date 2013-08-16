@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Zucchini
   module Compiler
 
@@ -53,7 +55,7 @@ module Zucchini
         f.puts(File.read(js_path))
       end
 
-      File.rename(tmp_file, js_path)
+      FileUtils.mv(tmp_file, js_path)
     end
   end
 end
