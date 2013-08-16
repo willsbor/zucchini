@@ -23,7 +23,7 @@ class Zucchini::Feature
   end
 
   def unmatched_pending_screenshots
-    Dir.glob("#{@path}/pending/#{@device[:screen]}/[^0-9]*.png").map do |file|
+    Dir.glob("#{@path}/pending/#{@device[:screen]}/[^0-9]*.png").sort.map do |file|
       screenshot = Zucchini::Screenshot.new(file, nil, true)
       screenshot.test_path = File.expand_path(file)
       screenshot.diff = [:pending, "unmatched"]
@@ -32,7 +32,7 @@ class Zucchini::Feature
   end
 
   def screenshots(process = true)
-    @screenshots ||= Dir.glob("#{run_data_path}/Run\ 1/*.png").map do |file|
+    @screenshots ||= Dir.glob("#{run_data_path}/Run\ 1/*.png").sort.map do |file|
       screenshot = Zucchini::Screenshot.new(file, @device)
       if process
         screenshot.mask

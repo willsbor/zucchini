@@ -53,7 +53,7 @@ module Zucchini::Reporter
       recreate_dir(dest_dir)
 
       features.each do |f|
-        f.screenshots.map do |s|
+        f.screenshots.each do |s|
           %W(actual expected difference).each do |type|
             src_path = s.result_images[type.to_sym]
             if src_path
