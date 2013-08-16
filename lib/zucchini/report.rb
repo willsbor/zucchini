@@ -2,10 +2,12 @@ require 'zucchini/reporters/tap'
 require 'zucchini/reporters/html'
 
 class Zucchini::Report
-  def initialize(features, ci = false, paths = nil)
-    @paths = paths || {
-      :html => '/tmp/zucchini_report.html',
-      :tap  => '/tmp/zucchini.t'
+  def initialize(features, ci = false, reports_dir)
+    FileUtils.mkdir_p(reports_dir)
+
+    @paths = {
+      :html => "#{reports_dir}/zucchini_report.html",
+      :tap  => "#{reports_dir}/zucchini.t"
     }
     generate(features, ci, @paths)
   end

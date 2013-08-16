@@ -2,8 +2,8 @@ module Zucchini::Reporter
   module TAP
     extend self
 
-    def generate(features, output_path)
-      File.open(output_path, 'w+') do |io|
+    def generate(features, report_path)
+      File.open(report_path, 'w+') do |io|
         io.puts "1..#{features.length}"
         features.each_with_index do |f, i|
           io.puts (f.succeeded ? "ok" : "not ok") + " #{i + 1} - #{f.name}"
@@ -24,7 +24,7 @@ module Zucchini::Reporter
         end
         io.close
       end
-      File.read(output_path) + "\nTAP report generated to #{output_path}"
+      File.read(report_path) + "\nTAP report generated to #{report_path}"
     end
   end
 end
