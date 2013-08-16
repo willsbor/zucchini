@@ -58,7 +58,7 @@ module Zucchini::Reporter
             src_path = s.result_images[type.to_sym]
             if src_path
               name      = File.basename(src_path)
-              type_dir  = "#{dest_dir}/#{type}"
+              type_dir  = "#{dest_dir}/#{f.name}/#{type}"
               dest_path = "#{type_dir}/#{name}"
 
               FileUtils.mkdir_p(type_dir)
