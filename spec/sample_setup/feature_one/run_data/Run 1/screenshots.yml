@@ -1,9 +1,9 @@
 ---
 - :screen: splash
-  :orientation: LandscapeRight
+  :orientation: Portrait
 - :screen: splash
-  :orientation: LandscapeRight
+  :orientation: LandscapeLeft
 - :screen: splash2
   :orientation: LandscapeRight
 - :screen: splash
-  :orientation: Portrait
+  :orientation: PortraitUpsideDown

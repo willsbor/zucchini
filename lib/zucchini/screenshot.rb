@@ -1,26 +1,22 @@
 class Zucchini::Screenshot
-  FILE_NAME_PATTERN = /^(?<sequence_number>\d\d)(_(?<orientation>Unknown|Portrait|PortraitUpsideDown|LandscapeLeft|LandscapeRight|FaceUp|FaceDown))?_(?<screenshot_name>[^\.]*)\.png$/
+  FILE_NAME_PATTERN = /^(?<sequence_number>\d\d)_(?<screenshot_name>[^\.]*)\.png$/
 
   attr_reader   :file_path, :original_file_path, :file_name
   attr_accessor :diff, :mask_paths, :masked_paths, :test_path, :diff_path
 
   def initialize(file_path, device, log, unmatched_pending = false)
-    @original_file_path = file_path
-    @file_path          = file_path.dup
+    @file_path = file_path
     @log = log
     @device = device
     
     @file_name = File.basename(@file_path)
     match = FILE_NAME_PATTERN.match(@file_name)
+    raise "Illegal screenshot name #{file_path}" unless match
 
-    if match
-      @screenshot_name      = match[:screenshot_name]
-      @sequence_number      = match[:sequence_number].to_i
-      @rotation_orientation = match[:orientation]
+    @screenshot_name      = match[:screenshot_name]
+    @sequence_number      = match[:sequence_number].to_i
 
-      @file_path.sub!("_#{@rotation_orientation}", '') if @rotation_orientation
-      @file_name = File.basename(@file_path)
-    end
+    @file_name = File.basename(@file_path)
 
     unless unmatched_pending
       run_data_path      = File.dirname(@file_path)
@@ -30,6 +26,13 @@ class Zucchini::Screenshot
         metadata     = @log.screenshot_metadata(@sequence_number)
         @orientation = metadata[:orientation]
         @screen      = metadata[:screen]
+        @rotated     = metadata[:rotated]
+      end
+
+      if @orientation && !@rotated
+        rotate
+        @log.mark_screenshot_as_rotated(@sequence_number)
+        @log.save
       end
 
       @mask_paths = {
@@ -45,19 +48,6 @@ class Zucchini::Screenshot
       @masked_paths = { :global => masked_path, :screen => masked_path, :specific => masked_path }
 
       @diff_path = "#{run_data_path}/../Diff/#{@file_name}"
-    end
-
-    preprocess
-  end
-
-  def preprocess
-    return if @original_file_path == @file_path
-
-    if @orientation
-      rotate
-    else
-      FileUtils.rm @file_path if File.exists?(@file_path)
-      FileUtils.mv @original_file_path, @file_path
     end
   end
 
@@ -144,22 +134,23 @@ class Zucchini::Screenshot
   end
 
   def apply_mask(src_path, mask)
-    mask_path   = @mask_paths[mask]
-    dest_path   = @masked_paths[mask]
+    mask_path = @mask_paths[mask]
+    dest_path = @masked_paths[mask]
     `convert -page +0+0 \"#{src_path}\" -page +0+0 \"#{mask_path}\" -flatten \"#{dest_path}\"`
     return dest_path
   end
 
   def rotate
-    degrees = case @rotation_orientation
+    degrees = case @orientation
     when 'LandscapeRight' then 90
     when 'LandscapeLeft' then 270
     when 'PortraitUpsideDown' then 180
     else
       0
     end
-    `convert \"#{@original_file_path}\" -rotate \"#{degrees}\" \"#{@file_path}\"`
-    FileUtils.rm @original_file_path
+    
+    `mogrify -rotate \"#{degrees}\" \"#{@file_path}\"` if degrees > 0
+    @rotated = true
   end
 end
 

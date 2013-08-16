@@ -28,7 +28,7 @@
 			<key>LogType</key>
 			<string>Default</string>
 			<key>Message</key>
-			<string>Screenshot of screen 'splash' taken with orientation 'LandscapeRight'</string>
+			<string>Screenshot of screen 'splash' taken with orientation 'Portrait'</string>
 			<key>Timestamp</key>
 			<date>2013-08-10T00:24:37Z</date>
 			<key>Type</key>
@@ -38,7 +38,7 @@
 			<key>LogType</key>
 			<string>Debug</string>
 			<key>Message</key>
-			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "01_LandscapeRight_sign up_spinner")</string>
+			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "01_sign up_spinner")</string>
 			<key>Timestamp</key>
 			<date>2013-08-10T00:24:37Z</date>
 			<key>Type</key>
@@ -48,7 +48,7 @@
 			<key>LogType</key>
 			<string>Screenshot</string>
 			<key>Message</key>
-			<string>01_LandscapeRight_sign up_spinner</string>
+			<string>01_sign up_spinner</string>
 			<key>Screenshot</key>
 			<string>56B3F3EC-89F9-4FCA-963F-D04D3C5B04FF</string>
 			<key>Timestamp</key>
@@ -60,7 +60,7 @@
 			<key>LogType</key>
 			<string>Default</string>
 			<key>Message</key>
-			<string>Screenshot of screen 'splash' taken with orientation 'LandscapeRight'</string>
+			<string>Screenshot of screen 'splash' taken with orientation 'LandscapeLeft'</string>
 			<key>Timestamp</key>
 			<date>2013-08-10T00:24:37Z</date>
 			<key>Type</key>
@@ -70,7 +70,7 @@
 			<key>LogType</key>
 			<string>Debug</string>
 			<key>Message</key>
-			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "02_LandscapeRight_sign up_spinner")</string>
+			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "02_sign up_spinner")</string>
 			<key>Timestamp</key>
 			<date>2013-08-10T00:24:37Z</date>
 			<key>Type</key>
@@ -80,7 +80,7 @@
 			<key>LogType</key>
 			<string>Screenshot</string>
 			<key>Message</key>
-			<string>02_LandscapeRight_sign up_spinner</string>
+			<string>02_sign up_spinner</string>
 			<key>Screenshot</key>
 			<string>56B3F3EC-89F9-4FCA-963F-D04D3C5B04FF</string>
 			<key>Timestamp</key>
@@ -102,7 +102,7 @@
 			<key>LogType</key>
 			<string>Debug</string>
 			<key>Message</key>
-			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "03_LandscapeRight_sign up_spinner2")</string>
+			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "03_sign up_spinner")</string>
 			<key>Timestamp</key>
 			<date>2013-08-10T00:24:37Z</date>
 			<key>Type</key>
@@ -112,7 +112,7 @@
 			<key>LogType</key>
 			<string>Screenshot</string>
 			<key>Message</key>
-			<string>03_LandscapeRight_sign up_spinner2</string>
+			<string>03_sign up_spinner</string>
 			<key>Screenshot</key>
 			<string>56B3F3EC-89F9-4FCA-963F-D04D3C5B04FF</string>
 			<key>Timestamp</key>
@@ -124,7 +124,7 @@
 			<key>LogType</key>
 			<string>Default</string>
 			<key>Message</key>
-			<string>Screenshot of screen 'splash' taken with orientation 'Portrait'</string>
+			<string>Screenshot of screen 'splash' taken with orientation 'PortraitUpsideDown'</string>
 			<key>Timestamp</key>
 			<date>2013-08-10T00:24:37Z</date>
 			<key>Type</key>
@@ -134,7 +134,7 @@
 			<key>LogType</key>
 			<string>Debug</string>
 			<key>Message</key>
-			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "04_Portrait_sign up_spinner")</string>
+			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "04_sign up_spinner")</string>
 			<key>Timestamp</key>
 			<date>2013-08-10T00:24:37Z</date>
 			<key>Type</key>
@@ -144,7 +144,7 @@
 			<key>LogType</key>
 			<string>Screenshot</string>
 			<key>Message</key>
-			<string>04_Portrait_sign up_spinner</string>
+			<string>04_sign up_spinner</string>
 			<key>Screenshot</key>
 			<string>56B3F3EC-89F9-4FCA-963F-D04D3C5B04FF</string>
 			<key>Timestamp</key>

@@ -3,10 +3,12 @@ require 'plist'
 class Zucchini::Log
   YAML_FILE = 'screenshots.yml'
 
+  attr_reader :screenshot_log_path
+
   def initialize(path)
-    screenshot_log_path = File.join(path, YAML_FILE)
-    raise "Screenshot log not found at #{screenshot_log_path}" unless File.exists?(screenshot_log_path)
-    @screenshots = File.open(screenshot_log_path, 'r') { |f| YAML.load(f) }
+    @screenshot_log_path = File.join(path, YAML_FILE)
+    raise "Screenshot log not found at #{@screenshot_log_path}" unless File.exists?(@screenshot_log_path)
+    @screenshots = File.open(@screenshot_log_path, 'r') { |f| YAML.load(f) }
   end
 
   def exists?
@@ -14,9 +16,16 @@ class Zucchini::Log
   end
 
   def screenshot_metadata(sequence_number)
-    return {} unless @screenshots
     raise "Invalid screenshot sequence number #{sequence_number}" if sequence_number > @screenshots.size
     @screenshots[sequence_number - 1]
+  end
+
+  def mark_screenshot_as_rotated(sequence_number)
+    screenshot_metadata(sequence_number)[:rotated] = true
+  end
+
+  def save
+    File.open(@screenshot_log_path, 'w') {|f| f.write(@screenshots.to_yaml) }
   end
 
   def self.parse_automation_log(path, screenshot_log_path = nil)
