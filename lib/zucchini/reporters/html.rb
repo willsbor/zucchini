@@ -12,7 +12,7 @@ module Zucchini::Reporter
     end
 
     def initialize(features, ci, template_path, output_path)
-      files_path = output_path.chomp(File.extname(output_path))
+      files_path = output_path.chomp(File.extname(output_path)) + '_files'
 
       @features      = features
       @device        = features[0].device
@@ -53,15 +53,17 @@ module Zucchini::Reporter
       features.each do |f|
         f.screenshots.each do |s|
           %W(actual expected difference).each do |type|
-            src_path  = s.result_images[type.to_sym]
-            name      = File.basename(src_path)
-            type_dir  = "#{dest_dir}/#{type}"
-            dest_path = "#{type_dir}/#{name}"
+            src_path = s.result_images[type.to_sym]
+            if src_path
+              name      = File.basename(src_path)
+              type_dir  = "#{dest_dir}/#{type}"
+              dest_path = "#{type_dir}/#{name}"
 
-            FileUtils.mkdir_p(type_dir)
-            FileUtils.cp(src_path, dest_path)
+              FileUtils.mkdir_p(type_dir)
+              FileUtils.cp(src_path, dest_path)
 
-            s.result_images[type.to_sym] = dest_path
+              s.result_images[type.to_sym] = dest_path
+            end
           end
         end
       end
