@@ -1,12 +1,13 @@
 app: MyApp.app
 
 devices:
-  My iDevice:
-    UDID  : lolffb28d74a6fraj2156090784avasc50725dd0
-    screen: retina_ios5
+  iPhone Simulator:
+    default: true
+    simulator: iPhone (Retina 3.5-inch)
+    screen: retina_ios6
+    app: /Users/yourname/Library/Developer/Xcode/DerivedData/MyApp-fofsuperjgolongsfzappyoeidss/Build/Products/Debug-iphonesimulator/MyApp.app
 
+  iPhone 4S:
+    UDID: lolffb28d74a6fraj2156090784avasc50725dd0
+    screen: retina_ios6
 
-servers:
-  backend:
-    host: 192.168.1.2
-    port: 8080
