@@ -25,21 +25,21 @@ gem install zucchini-ios
 Using Zucchini doesn't involve making any modifications to your application code.
 You might as well keep your Zucchini tests in a separate project.
 
-Start by creating a project scaffold:
+To create a project scaffold:
 
 ```
 zucchini generate --project /path/to/my_project
 ```
 
-Create a feature scaffold for your first feature:
+Then to create a feature scaffold for your first feature:
 
 ```
 zucchini generate --feature /path/to/my_project/features/my_feature
 ```
 
-Start hacking by modifying `features/my_feature/feature.zucchini` and `features/support/screens/welcome.coffee`.
+Start developing by editing `features/my_feature/feature.zucchini` and `features/support/screens/welcome.coffee`.
 
-Alternatively, check out the [zucchini-demo](https://github.com/zucchini-src/zucchini-demo) project featuring an easy to explore Zucchini setup around Apple's CoreDataBooks sample.
+Make sure you check out the [zucchini-demo](https://github.com/zucchini-src/zucchini-demo) project featuring an easy to explore Zucchini setup around Apple's CoreDataBooks sample.
 
 ## Running on the device
 
@@ -50,53 +50,69 @@ The [udidetect](https://github.com/vaskas/udidetect) utility comes in handy if y
 ```
 ZUCCHINI_DEVICE="My Device" zucchini run /path/to/my_feature
 ```
+You can set one of the devices to be used by default in `config.yml` so that you can avoid setting `ZUCCHINI_DEVICE` each time:
+
+```
+devices:
+  My Device:
+	default: true
+	...
+```
 
 ## Running on the iOS Simulator
 
 We encourage you to run your Zucchini features on real hardware. However you can also run them on the iOS Simulator.
 
-First off, modify your `features/support/config.yml` to include the path to your compiled app, e.g.
+First off, modify your `features/support/config.yml` to include the path to your compiled app (relative or absolute), e.g.
 
 ```
 app: ./Build/Products/Debug-iphonesimulator/CoreDataBooks.app
 ```
 
-Secondly, add an `iOS Simulator` entry to the devices section (no UDID needed) and make sure you provide the actual value for 'screen' based on your iOS Simulator settings:
+Secondly, add a simulator device entry (no UDID needed) and make sure you provide the actual value for `screen` based on your iOS Simulator settings:
 
 ```
 devices:
-  iOS Simulator:
-    screen: low_ios5
+  My Simulator:
+    screen: retina_ios7
+    simulator: iPhone (Retina 4-inch)
+    ...
 ```
 
-Alternatively, you can specify the app path in the device section:
+You can also override the app path per device:
 
 ```
 devices:
-  iOS Simulator:
-    screen: low_ios5
-    app: ./Build/Products/Debug-iphonesimulator/CoreDataBooks.app
   iPad2:
-    screen: ipad_ios5
+    screen: ipad_ios6
     app: ./Build/Products/Debug-iphoneos/CoreDataBooks.app
 ```
 
-If you do not want to hard-code the app path in your config files, you can use the environment variable `ZUCCHINI_APP`:
+Note that `config.yml` is compiled through ERB so that you can use environment variables, e.g.
 
+```erb
+app: <%= ENV['ZUCCHINI_APP'] %>
 ```
-ZUCCHINI_APP="/path/to/app" zucchini...
-```
+
 
 Run Zucchini and watch the simulator go!
 
 ```
-ZUCCHINI_DEVICE="iOS Simulator" zucchini run /path/to/my_feature
+ZUCCHINI_DEVICE="My Simulator" zucchini run /path/to/my_feature
 ```
 
 ## See also
+
+### Built-in help
 
 ```
 zucchini --help
 zucchini run --help
 zucchini generate --help
 ```
+
+### Further reading
+
+* [Zucchini features anatomy](https://github.com/zucchini-src/zucchini/wiki/Zucchini-features-anatomy)
+* [Continuous Integration with Zucchini](https://github.com/zucchini-src/zucchini/wiki/CI)
+* [Automated iOS Testing with Zucchini](http://www.jacopretorius.net/2013/04/automated-ios-testing-with-zucchini.html) - a friendly tutorial by [@Jaco-Pretorius](https://github.com/Jaco-Pretorius)
