@@ -32,7 +32,7 @@ class Zucchini::Feature
   end
 
   def screenshots(process = true)
-    log = Zucchini::Log.new(run_data_path) if process
+    log = Zucchini::Log.new(run_data_path) if process && @screenshot_log_exists
     
     @screenshots ||= Dir.glob("#{run_data_path}/Run\ 1/*.png").sort.map do |file|
       screenshot = Zucchini::Screenshot.new(file, @device, log)
@@ -65,7 +65,7 @@ class Zucchini::Feature
         @js_exception = true if (out.match /JavaScript error/) || (out.match /Instruments\ .{0,5}\ Error\ :/ )
       ensure
         `rm -rf instrumentscli*.trace`
-        Zucchini::Log.parse_automation_log(run_data_path)
+        @screenshot_log_exists = Zucchini::Log.parse_automation_log(run_data_path)
       end
     end
   end

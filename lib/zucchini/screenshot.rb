@@ -20,7 +20,7 @@ class Zucchini::Screenshot
 
     unless unmatched_pending
       run_data_path      = File.dirname(@file_path)
-      support_masks_path = File.join(run_data_path, '../../../support/masks')
+      support_path       = File.join(run_data_path, '../../../support')
 
       if @log
         metadata     = @log.screenshot_metadata(@sequence_number)
@@ -36,13 +36,10 @@ class Zucchini::Screenshot
       end
 
       @mask_paths = {
-        :global   => mask_path(File.join(support_masks_path, "#{@device[:screen]}")),
-        :specific => mask_path(File.join(run_data_path, "../../masks/#{@device[:screen]}/#{@file_name.sub('.png', '')}"))
+        :global   => mask_path(File.join(support_path,  'masks',         @device[:screen])),
+        :specific => mask_path(File.join(run_data_path, '../../masks',   @device[:screen], @file_name.sub('.png', ''))),
+        :screen   => mask_path(File.join(support_path,  'screens/masks', @device[:screen], @screen.to_s.underscore))
       }
-
-      if @screen
-        @mask_paths[:screen] = mask_path(File.join(support_masks_path, "#{@screen.to_s.underscore}"))
-      end
 
       masked_path   = File.join(run_data_path, "../Masked/actual/#{@file_name}")
       @masked_paths = { :global => masked_path, :screen => masked_path, :specific => masked_path }
@@ -117,12 +114,9 @@ class Zucchini::Screenshot
     end
     
     file_path = path + suffix + '.png'
+    file_path = path + '.png' unless File.exists?(file_path)
 
-    if File.exists?(file_path)
-      file_path
-    else
-      path + '.png'
-    end
+    File.expand_path(file_path)
   end
 
   def mask_present?(mask)

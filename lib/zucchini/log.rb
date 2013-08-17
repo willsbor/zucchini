@@ -49,8 +49,9 @@ class Zucchini::Log
 
       screenshot_log_path ||= File.join(path, YAML_FILE)
       File.open(screenshot_log_path, 'w') {|f| f.write(screenshots.to_yaml) }
+      true
     else
-      puts "Warning: automation log not found at #{automation_log_path}"
+      false
     end
   end
 end
