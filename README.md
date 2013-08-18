@@ -113,6 +113,13 @@ zucchini generate --help
 
 ### Further reading
 
-* [Zucchini features anatomy](https://github.com/zucchini-src/zucchini/wiki/Zucchini-features-anatomy)
+* [Zucchini features on the inside](https://github.com/zucchini-src/zucchini/wiki/Features-on-the-inside)
 * [Continuous Integration with Zucchini](https://github.com/zucchini-src/zucchini/wiki/CI)
-* [Automated iOS Testing with Zucchini](http://www.jacopretorius.net/2013/04/automated-ios-testing-with-zucchini.html) - a friendly tutorial by [@Jaco-Pretorius](https://github.com/Jaco-Pretorius)
+* [Automated iOS Testing with Zucchini](http://www.jacopretorius.net/2013/04/automated-ios-testing-with-zucchini.html) - a tutorial by [@Jaco-Pretorius](https://github.com/Jaco-Pretorius)
+* [Zucchini Google Group](https://groups.google.com/forum/#!forum/zucchini-discuss)
+
+## Credits
+* [Zucchini contributors](https://github.com/zucchini-src/zucchini/graphs/contributors) also known as the awesome [CHANGELOG](https://github.com/zucchini-src/zucchini/blob/master/CHANGELOG.md) guys
+* [Rajesh Kumar](https://github.com/rajbeniwal) for alpha and beta testing, ideas and the initial feedback
+* [Kevin O'Neill](https://github.com/kevinoneill) for the original idea and inspiration
+* [PlayUp](http://www.playup.com/) where the project was born and first released.

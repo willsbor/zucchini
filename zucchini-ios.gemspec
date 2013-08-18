@@ -6,9 +6,9 @@ require 'zucchini/version'
 Gem::Specification.new do |s|
   s.name        = "zucchini-ios"
   s.version     = Zucchini::VERSION
-  s.authors     = ["Vasily Mikhaylichenko", "Rajesh Kumar", "Kevin O'Neill"]
+  s.authors     = ["Vasily Mikhaylichenko"]
   s.licenses    = %w{ BSD MIT }
-  s.email       = ["vaskas@zucchiniframework.org"]
+  s.email       = ["vaskas@lxmx.com.au"]
   s.homepage    = "http://www.zucchiniframework.org"
   s.summary     = %q{A visual iOS testing framework}
   s.description = %q{Zucchini follows simple walkthrough scenarios for your iOS app, takes screenshots and compares them to the reference ones.}
