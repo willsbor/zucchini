@@ -39,7 +39,7 @@ class Zucchini::Log
 
       entries.each do |entry|
         next unless entry['LogType'] == 'Default'
-        match = entry["Message"].match(/Screenshot of screen '(?<screen>[^']*)' taken with orientation '(?<orientation>[^']*)'/)
+        match = entry["Message"].match(/^Screenshot.*screen '(?<screen>[^']*)'.*orientation '(?<orientation>[^']*)'$/)
         
         if match
           metadata = {:screen => match[:screen], :orientation => match[:orientation] }

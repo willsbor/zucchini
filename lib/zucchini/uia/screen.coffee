@@ -9,8 +9,8 @@ class Screen
       when 4 then 'LandscapeRight'
       when 5 then 'FaceUp'
       when 6 then 'FaceDown'
-    $.log "Screenshot of screen '#{@name}' taken in orientation '#{orientation}'"
-    target.captureScreenWithName("#{orientation}_#{screenshot_name}")
+    $.log "Screenshot of screen '#{@name}' taken with orientation '#{orientation}'"
+    target.captureScreenWithName(screenshotName)
 
   element: (name) ->
     finder = @elements[name] || -> $('#' + name)
