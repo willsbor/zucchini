@@ -11,7 +11,7 @@ describe Zucchini::Report do
 
   let(:feature) do
     fake_screenshots = (1..7).to_a.map do |num|
-      screenshot = Zucchini::Screenshot.new("#{num}.screen_#{num}.png", device)
+      screenshot = Zucchini::Screenshot.new("0#{num}_screen_#{num}.png", device, nil)
       screenshot.diff = (num > 3) ? [:passed, nil] : [:failed, "120"]
       screenshot
     end
@@ -42,13 +42,13 @@ describe Zucchini::Report do
       1..1
       not ok 1 - feature
           1..7
-          not ok 1 - 1.screen_1.png does not match (120)
-          not ok 2 - 2.screen_2.png does not match (120)
-          not ok 3 - 3.screen_3.png does not match (120)
-          ok 4 - 4.screen_4.png
-          ok 5 - 5.screen_5.png
-          ok 6 - 6.screen_6.png
-          ok 7 - 7.screen_7.png
+          not ok 1 - 01_screen_1.png does not match (120)
+          not ok 2 - 02_screen_2.png does not match (120)
+          not ok 3 - 03_screen_3.png does not match (120)
+          ok 4 - 04_screen_4.png
+          ok 5 - 05_screen_5.png
+          ok 6 - 06_screen_6.png
+          ok 7 - 07_screen_7.png
           Bail out! Instruments run error
     END
     File.read("#{reports_dir}/zucchini.t").should eq expected

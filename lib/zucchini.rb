@@ -7,6 +7,7 @@ module Zucchini
   require 'zucchini/compiler'
   require 'zucchini/device'
   require 'zucchini/feature'
+  require 'zucchini/log'
   require 'zucchini/detector'
   require 'zucchini/runner'
   require 'zucchini/generator'
