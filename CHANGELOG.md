@@ -1,3 +1,8 @@
+## 0.7.2 / 2013-08-19
+* Implement orientation specific masks - [@phatmann][], [#34][]
+* Archivable HTML reports - [@vaskas][], [#33][]
+* TAP-compatible output and reporting - [@vaskas][], [#32][]
+
 ## 0.7.1 / 2013-08-12
 * Compile config file with ERB - [@vaskas][], [#30][]
 * Reduce gem size by not bundling specs with their sample setups
@@ -64,6 +69,9 @@
 [#27]: https://github.com/zucchini-src/zucchini/issues/27
 [#29]: https://github.com/zucchini-src/zucchini/issues/29
 [#30]: https://github.com/zucchini-src/zucchini/issues/30
+[#32]: https://github.com/zucchini-src/zucchini/issues/32
+[#33]: https://github.com/zucchini-src/zucchini/issues/33
+[#34]: https://github.com/zucchini-src/zucchini/issues/34
 
 [@Jaco-Pretorius]: https://github.com/Jaco-Pretorius
 [@NathanSudell]: https://github.com/NathanSudell
