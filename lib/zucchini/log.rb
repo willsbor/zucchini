@@ -6,13 +6,9 @@ class Zucchini::Log
   attr_reader :screenshot_log_path
 
   def initialize(path)
-    @screenshot_log_path = File.join(path, YAML_FILE)
+    @screenshot_log_path = Zucchini::Log.screenshot_log_path(path)
     raise "Screenshot log not found at #{@screenshot_log_path}" unless File.exists?(@screenshot_log_path)
     @screenshots = File.open(@screenshot_log_path, 'r') { |f| YAML.load(f) }
-  end
-
-  def exists?
-    @screenshots != nil
   end
 
   def screenshot_metadata(sequence_number)
@@ -53,6 +49,14 @@ class Zucchini::Log
     else
       false
     end
+  end
+
+  def self.exists?(path)
+    File.exists?(screenshot_log_path(path))
+  end
+
+  def self.screenshot_log_path(path)
+     File.join(path, YAML_FILE)
   end
 end
 
