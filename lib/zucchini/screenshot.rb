@@ -104,6 +104,10 @@ class Zucchini::Screenshot
     end
   end
 
+  def self.valid?(file_path)
+    FILE_NAME_PATTERN =~ File.basename(file_path)
+  end
+
   private
   def mask_path(path)
     suffix = case @orientation

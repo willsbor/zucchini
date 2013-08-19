@@ -39,13 +39,15 @@ class Zucchini::Feature
     log = Zucchini::Log.new(run_path) if process && Zucchini::Log.exists?(run_path)
     
     @screenshots ||= Dir.glob("#{run_path}/*.png").sort.map do |file|
+      next unless Zucchini::Screenshot.valid?(file)
+
       screenshot = Zucchini::Screenshot.new(file, @device, log)
       if process
         screenshot.mask
         screenshot.compare
       end
       screenshot
-    end + unmatched_pending_screenshots
+    end.compact + unmatched_pending_screenshots
   end
 
   def stats
