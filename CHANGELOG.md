@@ -1,3 +1,9 @@
+## 0.7.3 / 2013-08-20
+* Fix timing problems due to mechanic.js changing timeout to 0 - [@phatmann][]
+* Fix: When using run -p, the orientation-specific masks are not used - [@phatmann][], [#36][]
+* Fix: Tapping an element shows "(null).tap()" in the log - [@phatmann][], [#37][]
+* Ignore error-based UIAutomation screenshots - [@phatmann], [#38][]
+
 ## 0.7.2 / 2013-08-19
 * Implement orientation specific masks - [@phatmann][], [#34][]
 * Archivable HTML reports - [@vaskas][], [#33][]
@@ -72,6 +78,9 @@
 [#32]: https://github.com/zucchini-src/zucchini/issues/32
 [#33]: https://github.com/zucchini-src/zucchini/issues/33
 [#34]: https://github.com/zucchini-src/zucchini/issues/34
+[#36]: https://github.com/zucchini-src/zucchini/issues/36
+[#37]: https://github.com/zucchini-src/zucchini/issues/37
+[#38]: https://github.com/zucchini-src/zucchini/issues/38
 
 [@Jaco-Pretorius]: https://github.com/Jaco-Pretorius
 [@NathanSudell]: https://github.com/NathanSudell
