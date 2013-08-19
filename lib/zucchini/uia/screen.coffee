@@ -38,8 +38,7 @@ class Screen
     'Wait for "([^"]*)" second[s]*$': (seconds) -> target.delay(seconds)
 
     'Type "([^"]*)" in the "([^"]*)" field$': (text, name) ->
-      @element(name).tap()
-      app.keyboard().typeString text
+      $(@element(name)).input(text)
 
     'Clear the "([^"]*)" field$': (name) -> @element(name).setValue ''
 

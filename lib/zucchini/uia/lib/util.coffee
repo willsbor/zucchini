@@ -15,7 +15,7 @@ raise = (message) -> throw new Error(message)
 # Handle both cases
 _elementFrom = (finder) ->
   res = finder()
-  res = res[0] if (typeof res.length is 'number')
+  res = res[0] if res and typeof res.length is 'number'
   res
 
 # Execute a finder function until the element appears
@@ -24,14 +24,15 @@ wait = (finder) ->
   counter = 0
   element = null
 
-  while not found and (counter < 10)
+  while not found and counter < 10
     element = _elementFrom finder
 
-    if element? and element.isValid() and element.isVisible()
+    if element? and element.checkIsValid() and element.isVisible()
       found = true
     else
       target.delay 0.5
       counter++
+
   if found then element else false
 
 rotateTo = (orientation) ->
