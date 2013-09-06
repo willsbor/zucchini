@@ -13,8 +13,8 @@ module Zucchini
 
       coffee_src_paths = [
         "#{lib_path}/uia",
-        "#{path}/../support/screens",
-        "#{path}/../support/lib",
+        "#{Zucchini::Config.base_path}/support/screens",
+        "#{Zucchini::Config.base_path}/support/lib",
         feature_coffee("#{path}/feature.zucchini", orientation)
       ].select { |p| File.exists? p }.join ' '
 

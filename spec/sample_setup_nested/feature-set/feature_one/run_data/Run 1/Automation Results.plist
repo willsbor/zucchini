@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>All Samples</key>
+	<array>
+		<dict>
+			<key>LogType</key>
+			<string>Debug</string>
+			<key>Message</key>
+			<string>target.setDeviceOrientation("4")</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:23:57Z</date>
+			<key>Type</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>Found anchor for screen 'Splash'</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:01Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>Screenshot of screen 'splash' taken with orientation 'Portrait'</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Debug</string>
+			<key>Message</key>
+			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "01_sign up_spinner")</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Screenshot</string>
+			<key>Message</key>
+			<string>01_sign up_spinner</string>
+			<key>Screenshot</key>
+			<string>56B3F3EC-89F9-4FCA-963F-D04D3C5B04FF</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>8</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>Screenshot of screen 'splash' taken with orientation 'LandscapeLeft'</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Debug</string>
+			<key>Message</key>
+			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "02_sign up_spinner")</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Screenshot</string>
+			<key>Message</key>
+			<string>02_sign up_spinner</string>
+			<key>Screenshot</key>
+			<string>56B3F3EC-89F9-4FCA-963F-D04D3C5B04FF</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>8</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>Screenshot of screen 'splash2' taken with orientation 'LandscapeRight'</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Debug</string>
+			<key>Message</key>
+			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "03_sign up_spinner")</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Screenshot</string>
+			<key>Message</key>
+			<string>03_sign up_spinner</string>
+			<key>Screenshot</key>
+			<string>56B3F3EC-89F9-4FCA-963F-D04D3C5B04FF</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>8</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>Screenshot of screen 'splash' taken with orientation 'PortraitUpsideDown'</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Debug</string>
+			<key>Message</key>
+			<string>target.captureRectWithName("{origin:{x:0.00,y:256.00}, size:{height:768.00,width:1024.00}}", "04_sign up_spinner")</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Screenshot</string>
+			<key>Message</key>
+			<string>04_sign up_spinner</string>
+			<key>Screenshot</key>
+			<string>56B3F3EC-89F9-4FCA-963F-D04D3C5B04FF</string>
+			<key>Timestamp</key>
+			<date>2013-08-10T00:24:37Z</date>
+			<key>Type</key>
+			<integer>8</integer>
+		</dict>
+	</array>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>
