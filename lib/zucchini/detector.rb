@@ -8,15 +8,11 @@ class Zucchini::Detector < Clamp::Command
 
     @path = File.expand_path(path)
     
-    if File.exists?("#{path}/support")  
-      base_path = path
-    else
-      base_path = base_path(path)
-    end
-
+    base_path = File.exists?("#{path}/support") ? path : base_path(path)
     raise "No support directory found in parent folders from path #{path}" unless !base_path.nil?
-
+    
     Zucchini::Config.base_path = base_path
+
     @device = Zucchini::Config.device(ENV['ZUCCHINI_DEVICE'])
 
     exit run_command
