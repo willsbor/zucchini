@@ -6,6 +6,7 @@ class Zucchini::Feature
   attr_accessor :device
   attr_accessor :stats
   attr_accessor :js_exception
+  attr_accessor :js_stdout
 
   attr_reader :succeeded
   attr_reader :name
@@ -16,6 +17,7 @@ class Zucchini::Feature
     @device       = nil
     @succeeded    = false
     @js_exception = false
+    @js_stdout = nil
   end
 
   def run_data_path
@@ -61,14 +63,15 @@ class Zucchini::Feature
     with_setup do
       `rm -rf #{run_data_path}/*`
 
+      @js_stdout = nil
       begin
-        out = `instruments #{device_params(@device)} \
+        @js_stdout = `instruments #{device_params(@device)} \
                -t "#{Zucchini::Config.template}" "#{Zucchini::Config.app}" \
                -e UIASCRIPT "#{compile_js(@device[:orientation])}" \
                -e UIARESULTSPATH "#{run_data_path}" 2>&1`
-        puts out
+        puts @js_stdout
         # Hack. Instruments don't issue error return codes when JS exceptions occur
-        @js_exception = true if (out.match /JavaScript error/) || (out.match /Instruments\ .{0,5}\ Error\ :/ )
+        @js_exception = true if (@js_stdout.match /JavaScript error/) || (@js_stdout.match /Instruments\ .{0,5}\ Error\ :/ )
       ensure
         `rm -rf instrumentscli*.trace`
         Zucchini::Log.parse_automation_log(run_path)
