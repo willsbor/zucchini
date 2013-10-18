@@ -58,6 +58,7 @@ module Zucchini::Reporter
             test_case.add_child(error)
           end
 
+          suite.add_child(test_case)
         end
 
         stdout = (f.succeeded ? f.js_stdout : '')

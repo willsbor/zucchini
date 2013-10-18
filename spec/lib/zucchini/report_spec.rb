@@ -53,4 +53,13 @@ describe Zucchini::Report do
     END
     File.read("#{reports_dir}/zucchini.t").should eq expected
   end
+
+  it "should produce a correct JUnit report" do
+    report = File.read("#{reports_dir}/zucchini_report.xml")
+    puts report
+
+    report.scan(/<testsuite id/).length.should eq 1
+    report.scan(/<testcase/).length.should eq 8
+
+  end
 end
