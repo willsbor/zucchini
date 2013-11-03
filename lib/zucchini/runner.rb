@@ -12,12 +12,16 @@ class Zucchini::Runner < Zucchini::Detector
     compare_threads = {}
 
     features.each do |f|
+      puts "------- starting feature #{f.name}---------"
+
       f.device = @device
 
       if    collect? then f.collect
       elsif compare? then f.compare
       else  f.collect; compare_threads[f.name] = Thread.new { f.compare }
       end
+      puts "------- ending feature #{f.name}---------"
+
     end
 
     compare_threads.each { |name, t| t.abort_on_exception = true; t.join }

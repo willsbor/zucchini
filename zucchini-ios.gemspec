@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency     'clamp'
   s.add_runtime_dependency     'plist'
+  s.add_runtime_dependency     'nokogiri'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'coveralls'
