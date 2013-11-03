@@ -20,7 +20,7 @@ class Zucchini::Screenshot
 
     unless unmatched_pending
       run_data_path      = File.dirname(@file_path)
-      support_path       = File.join(run_data_path, '../../../support')
+      support_path       = File.join(Zucchini::Config.base_path, 'support')
 
       if @log
         metadata     = @log.screenshot_metadata(@sequence_number)

@@ -7,11 +7,31 @@ class Zucchini::Detector < Clamp::Command
     raise "Directory #{path} does not exist" unless File.exists?(path)
 
     @path = File.expand_path(path)
-    Zucchini::Config.base_path = File.exists?("#{path}/feature.zucchini") ? File.dirname(path) : path
+    
+    base_path = File.exists?("#{path}/support") ? path : base_path(path)
+    raise "No support directory found in parent folders from path #{path}" unless !base_path.nil?
+    
+    Zucchini::Config.base_path = base_path
 
     @device = Zucchini::Config.device(ENV['ZUCCHINI_DEVICE'])
 
     exit run_command
+  end
+
+  def base_path(leaf_path)
+    base_path = nil
+    current_folder = File.dirname(leaf_path)
+    while current_folder != "/"
+      
+      if  File.exists?("#{current_folder}/support")
+        base_path = current_folder
+        break
+      end
+
+      current_folder = File.dirname(current_folder)
+    end
+
+    base_path
   end
 
   def run_command; end
@@ -25,22 +45,17 @@ class Zucchini::Detector < Clamp::Command
     if File.exists?("#{path}/feature.zucchini")
       features << Zucchini::Feature.new(path)
     else
-      raise detection_error(path) if Dir["#{path}/*"].empty?
+      feature_files = Dir.glob("#{path}/**/feature.zucchini")
+      raise detection_error(path) if feature_files.empty?
 
-      Dir.glob("#{path}/*").each do |dir|
-          unless dir.match /support/
-          if File.exists?("#{dir}/feature.zucchini")
-            features << Zucchini::Feature.new(dir)
-          else
-            raise detection_error(dir)
-          end
-        end
+      feature_files.each do |feature_file|
+        features << Zucchini::Feature.new(File.dirname(feature_file))
       end
     end
     features
   end
 
   def detection_error(path)
-    "#{path} is not a feature directory"
+    "#{path} does not contain any features"
   end
 end

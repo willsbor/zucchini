@@ -38,7 +38,21 @@ describe Zucchini::Detector do
         subject.call.length.should eq 3
       end
     end
+
+    context "path to a directory with nested features" do
+      before { @path = File.expand_path("spec/sample_setup_nested") }
+      it "should detect all features in it" do
+        subject.call.length.should eq 3
+      end
+    end
     
+    context "path to a single feature within a nested feature set" do
+      before { @path = File.expand_path("spec/sample_setup_nested/feature-set/feature_one") }
+      it "should detect it" do
+        subject.call.length.should eq 1
+      end
+    end
+
     context "path to a non-feature directory" do
       before do
         @path = File.expand_path("spec/sample_setup/bad_feature")

@@ -3,11 +3,14 @@ require 'spec_helper'
 describe Zucchini::Compiler do
   let(:path)    { './spec/sample_setup/feature_one' }
   let(:feature) { Zucchini::Feature.new(path) }
-
+  let(:base_path) { './spec/sample_setup' }
   after(:all) { FileUtils.rm_rf Dir.glob("#{path}/run_data/feature.*") }
 
   describe "#compile_js" do
-    before { feature.compile_js 'landscape' }
+    before do 
+      Zucchini::Config.base_path = base_path
+      feature.compile_js 'landscape' 
+    end
 
     it "should strip comments from the feature file" do
       File.read("#{feature.run_data_path}/feature.coffee").index('#').should be_nil
