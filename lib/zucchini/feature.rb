@@ -65,34 +65,32 @@ class Zucchini::Feature
     with_setup do
       (retry_attempts).times do |attempt|
         current_attempt = attempt + 1
-        `rm -rf #{run_data_path}/*`
+      `rm -rf #{run_data_path}/*`
 
-        @js_stdout = nil
-        begin
+      @js_stdout = nil
+      begin
           @js_stdout = Timeout::timeout(timeout) {
             `instruments #{device_params(@device)} \
-                 -t "#{Zucchini::Config.template}" "#{Zucchini::Config.app}" \
-                 -e UIASCRIPT "#{compile_js(@device[:orientation])}" \
-                 -e UIARESULTSPATH "#{run_data_path}" 2>&1`
-          }
-
-          puts @js_stdout
-          # Hack. Instruments don't issue error return codes when JS exceptions occur
-          @js_exception = true if (@js_stdout.match /JavaScript error/) || (@js_stdout.match /Instruments\ .{0,5}\ Error\ :/ )
+               -t "#{Zucchini::Config.template}" "#{Zucchini::Config.app}" \
+               -e UIASCRIPT "#{compile_js(@device[:orientation])}" \
+               -e UIARESULTSPATH "#{run_data_path}" #{Zucchini::Config.app_args} 2>&1`
+        puts @js_stdout
+        # Hack. Instruments don't issue error return codes when JS exceptions occur
+        @js_exception = true if (@js_stdout.match /JavaScript error/) || (@js_stdout.match /Instruments\ .{0,5}\ Error\ :/ )
           puts "Attempt #{current_attempt} completed"
           # we have not timed out so lets jump out of retry
           break
         rescue Timeout::Error
           puts "Attempt #{current_attempt} timed out"
           # need to look into recovering from instruments crash potentially?
-        ensure
-          `rm -rf instrumentscli*.trace`
-          Zucchini::Log.parse_automation_log(run_path)
-        end
-
+      ensure
+        `rm -rf instrumentscli*.trace`
+        Zucchini::Log.parse_automation_log(run_path)
       end
-      @js_exception = true unless @js_stdout
+
     end
+      @js_exception = true unless @js_stdout
+  end
   end
 
   def compare
