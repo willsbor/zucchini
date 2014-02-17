@@ -10,15 +10,19 @@ class Zucchini::Runner < Zucchini::Detector
 
   def run_command
     compare_threads = {}
+    retry_attempts = Zucchini::Config.retry_attempts
+    feature_timeout = Zucchini::Config.feature_timeout
 
     features.each do |f|
       puts "------- starting feature #{f.name}---------"
+      puts "  retry attempts: #{retry_attempts}"
+      puts " feature timeout: #{feature_timeout}"
 
       f.device = @device
 
-      if    collect? then f.collect
+      if    collect? then f.collect(retry_attempts, feature_timeout)
       elsif compare? then f.compare
-      else  f.collect; compare_threads[f.name] = Thread.new { f.compare }
+      else  f.collect(retry_attempts, feature_timeout); compare_threads[f.name] = Thread.new { f.compare }
       end
       puts "------- ending feature #{f.name}---------"
 
