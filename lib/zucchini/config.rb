@@ -67,12 +67,16 @@ module Zucchini
       raise "Can't find Instruments template (tried #{locations.join(', ')})"
     end
 
-    def self.feature_timeout
-      @@config['feature']['timeout'] || 0
+    def self.feature
+      @@config['feature'] || {}
     end
 
-  def self.retry_attempts
-      @@config['feature']['retry_attempts'] || 1
+    def self.feature_timeout
+      feature['timeout'] || 0
+    end
+
+    def self.retry_attempts
+      feature['retry_attempts'] || 1
     end
   end
 end
