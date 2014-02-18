@@ -63,8 +63,8 @@ class Zucchini::Feature
 
   def collect(retry_attempts, timeout)
     with_setup do
-
-      (1..retry_attempts).each { |attempt|
+      (retry_attempts).times do |attempt|
+        current_attempt = attempt + 1
         `rm -rf #{run_data_path}/*`
 
         @js_stdout = nil
@@ -79,18 +79,18 @@ class Zucchini::Feature
           puts @js_stdout
           # Hack. Instruments don't issue error return codes when JS exceptions occur
           @js_exception = true if (@js_stdout.match /JavaScript error/) || (@js_stdout.match /Instruments\ .{0,5}\ Error\ :/ )
-          puts "Attempt #{attempt} successful!"
+          puts "Attempt #{current_attempt} successful!"
           # we have not timed out so lets jump out of retry
           break
         rescue Timeout::Error
-          puts "Attempt #{attempt} failed!"
+          puts "Attempt #{current_attempt} failed!"
           # need to look into recovering from instruments crash potentially?
         ensure
           `rm -rf instrumentscli*.trace`
           Zucchini::Log.parse_automation_log(run_path)
         end
-      }
 
+      end
       @js_exception = true unless @js_stdout
     end
   end
