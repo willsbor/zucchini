@@ -79,11 +79,11 @@ class Zucchini::Feature
           puts @js_stdout
           # Hack. Instruments don't issue error return codes when JS exceptions occur
           @js_exception = true if (@js_stdout.match /JavaScript error/) || (@js_stdout.match /Instruments\ .{0,5}\ Error\ :/ )
-          puts "Attempt #{current_attempt} successful!"
+          puts "Attempt #{current_attempt} completed"
           # we have not timed out so lets jump out of retry
           break
         rescue Timeout::Error
-          puts "Attempt #{current_attempt} failed!"
+          puts "Attempt #{current_attempt} timed out"
           # need to look into recovering from instruments crash potentially?
         ensure
           `rm -rf instrumentscli*.trace`
