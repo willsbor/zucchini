@@ -66,5 +66,17 @@ module Zucchini
       locations.each { |path| return path if File.exists?(path) }
       raise "Can't find Instruments template (tried #{locations.join(', ')})"
     end
+
+    def self.feature
+      @@config['feature'] || {}
+    end
+
+    def self.feature_timeout
+      feature['timeout'] || 0
+    end
+
+    def self.retry_attempts
+      feature['retry_attempts'] || 1
+    end
   end
 end
