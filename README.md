@@ -75,8 +75,14 @@ Secondly, add a simulator device entry (no UDID needed) and make sure you provid
 devices:
   My Simulator:
     screen: retina_ios7
-    simulator: iPhone (Retina 4-inch)
+    simulator: iPhone Retina (4-inch) - Simulator - iOS 7.1
     ...
+```
+
+Retrive a complete list of local supported simualtor version run following command on your command line:
+
+```
+  instruments -w sda
 ```
 
 You can also override the app path per device:
