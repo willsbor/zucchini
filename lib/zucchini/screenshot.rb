@@ -67,7 +67,7 @@ class Zucchini::Screenshot
     if @test_path
       FileUtils.mkdir_p(File.dirname(@diff_path))
 
-      compare_command = "compare -metric AE -fuzz 2% -dissimilarity-threshold 1 -subimage-search"
+      compare_command = "compare -metric AE -fuzz 2% -dissimilarity-threshold 1"
       out = `#{compare_command} \"#{@masked_paths[:specific]}\" \"#{@test_path}\" \"#{@diff_path}\" 2>&1`
       out.chomp!
       @diff = ($?.exitstatus == 0) ? [:passed, nil] : [:failed, out]
