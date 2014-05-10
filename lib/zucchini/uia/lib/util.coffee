@@ -18,20 +18,25 @@ _elementFrom = (finder) ->
   res = res[0] if res and typeof res.length is 'number'
   res
 
-# Execute a finder function until the element appears
+# Execute a finder function until the element appears or timeout reached
+# The default timeout is 10 seconds if not specified by users
 wait = (finder) ->
+  wait finder, null
+
+wait = (finder, timeout) ->
+  timeout = 10 unless timeout?
   found   = false
   counter = 0
   element = null
 
-  while not found and counter < 10
+  while not found and counter < timeout
     element = _elementFrom finder
 
     if element? and element.checkIsValid() and element.isVisible()
       found = true
     else
       target.delay 0.5
-      counter++
+      counter += 0.5
 
   if found then element else false
 
