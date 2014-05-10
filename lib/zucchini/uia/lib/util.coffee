@@ -35,8 +35,9 @@ wait = (finder, timeout) ->
     if element? and element.checkIsValid() and element.isVisible()
       found = true
     else
-      target.delay 0.5
-      counter += 0.5
+      delayTime = 0.5
+      target.delay delayTime
+      counter += delayTime
 
   if found then element else false
 
