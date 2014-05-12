@@ -3,7 +3,7 @@ app: MyApp.app
 devices:
   iPhone Simulator:
     default: true
-    simulator: iPhone (Retina 3.5-inch)
+    simulator: iPhone Retina (3.5-inch) - Simulator - iOS 6.1
     screen: retina_ios6
     app: /Users/yourname/Library/Developer/Xcode/DerivedData/MyApp-fofsuperjgolongsfzappyoeidss/Build/Products/Debug-iphonesimulator/MyApp.app
 
