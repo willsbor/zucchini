@@ -17,7 +17,8 @@ Zucchini = (featureText, orientation) ->
       raise "Screen '#{screenName}' not defined"
 
     if screen.anchor
-      if wait(screen.anchor)
+      timeout = screen.timeout?()
+      if wait screen.anchor, timeout
         $.log "Found anchor for screen '#{screenName}'"
       else
         raise "Could not find anchor for screen '#{screenName}'"
