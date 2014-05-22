@@ -67,10 +67,24 @@ class Zucchini::Screenshot
     if @test_path
       FileUtils.mkdir_p(File.dirname(@diff_path))
 
-      compare_command = "compare -metric AE -fuzz 2% -dissimilarity-threshold 1 -subimage-search"
+      compare_version_string = `compare --version`.strip.split[2].slice(/\d+\.\d+\.\d+/)
+
+      if Gem::Version.new(compare_version_string) < Gem::Version.new('6.8.8')
+        compare_command = "compare -metric AE -fuzz 2% -dissimilarity-threshold 1 -subimage-search"
+      else
+        compare_command = "compare -metric AE -fuzz 2% -dissimilarity-threshold 1"
+      end
+
       out = `#{compare_command} \"#{@masked_paths[:specific]}\" \"#{@test_path}\" \"#{@diff_path}\" 2>&1`
       out.chomp!
-      @diff = (out == '0') ? [:passed, nil] : [:failed, out]
+      out = out.split("\n")[0]
+
+      if Gem::Version.new(compare_version_string) < Gem::Version.new('6.8.8')
+        @diff = (out == '0') ? [:passed, nil] : [:failed, out]
+      else
+        @diff = ($?.exitstatus == 0) ? [:passed, nil] : [:failed, out]
+      end
+
       @diff = [:pending, @diff[1]] if @pending
     else
       @diff = [:failed, "no reference or pending screenshot for #{@device[:screen]}"]
