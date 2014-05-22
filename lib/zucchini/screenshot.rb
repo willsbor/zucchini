@@ -77,6 +77,7 @@ class Zucchini::Screenshot
 
       out = `#{compare_command} \"#{@masked_paths[:specific]}\" \"#{@test_path}\" \"#{@diff_path}\" 2>&1`
       out.chomp!
+      out = out.split("\n")[0]
 
       if Gem::Version.new(compare_version_string) < Gem::Version.new('6.8.8')
         @diff = (out == '0') ? [:passed, nil] : [:failed, out]
