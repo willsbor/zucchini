@@ -122,7 +122,7 @@ class Zucchini::Feature
         reference_file_path = "#{File.dirname(s.file_path)}/../../#{reference_type}/#{device[:screen]}/#{s.file_name}"
         FileUtils.mkdir_p File.dirname(reference_file_path)
         @succeeded = FileUtils.copy_file(s.file_path, reference_file_path)
-    end
+      end
     end
   end
 end
