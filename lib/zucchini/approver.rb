@@ -2,7 +2,7 @@ class Zucchini::Approver < Zucchini::Detector
   parameter "PATH", "a path to feature or a directory"
 
   option %W(-p --pending), :flag, "update pending screenshots instead"
-  option "--tomask",       :flag, "transfer diff image to mask image"
+  option %W(-m --tomask),  :flag, "transfer diff image to mask image"
 
   def run_command
     reference_type = pending? ? "pending" : "reference"
