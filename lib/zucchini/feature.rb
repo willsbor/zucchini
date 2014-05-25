@@ -39,19 +39,22 @@ class Zucchini::Feature
     end
   end
 
-  def screenshots(process = true)
+  def screenshots(process = true, tomask = false)
     log = Zucchini::Log.new(run_path) if process && Zucchini::Log.exists?(run_path)
-    
+
     @screenshots ||= Dir.glob("#{run_path}/*.png").sort.map do |file|
       next unless Zucchini::Screenshot.valid?(file)
 
-      screenshot = Zucchini::Screenshot.new(file, @device, log)
+      screenshot = Zucchini::Screenshot.new(file, @device, log, false, tomask)
       if process
         screenshot.mask
         screenshot.compare
       end
       screenshot
-    end.compact + unmatched_pending_screenshots
+    end.compact
+
+    @screenshots + unmatched_pending_screenshots if !tomask
+    @screenshots
   end
 
   def stats
@@ -110,6 +113,22 @@ class Zucchini::Feature
       end
     else
       yield
+    end
+  end
+
+  def approve_tomask
+    raise "Directory #{path} doesn't contain previous run data" unless File.exists?("#{run_data_path}/Run\ 1")
+    screenshots(true, true).each do |s|
+      if s.diff[0] == :failed
+        reference_file_path = "#{File.dirname(s.file_path)}/../../masks/#{device[:screen]}/#{s.file_name}"
+        if File.exists?(reference_file_path)
+          `composite -page +0+0 \"#{s.diff_path}\" -page +0+0 \"#{reference_file_path}\" \"#{reference_file_path}\"`
+          @succeeded = true
+        else
+          FileUtils.mkdir_p File.dirname(reference_file_path)
+          @succeeded = FileUtils.copy_file(s.diff_path, reference_file_path)
+        end
+      end
     end
   end
 

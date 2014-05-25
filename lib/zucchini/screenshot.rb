@@ -4,11 +4,12 @@ class Zucchini::Screenshot
   attr_reader   :file_path, :original_file_path, :file_name
   attr_accessor :diff, :mask_paths, :masked_paths, :test_path, :diff_path
 
-  def initialize(file_path, device, log, unmatched_pending = false)
+  def initialize(file_path, device, log, unmatched_pending = false, tomask = false)
     @file_path = file_path
     @log = log
     @device = device
-    
+    @tomask = tomask
+
     @file_name = File.basename(@file_path)
     match = FILE_NAME_PATTERN.match(@file_name)
     raise "Illegal screenshot name #{file_path}" unless match
@@ -45,6 +46,7 @@ class Zucchini::Screenshot
       @masked_paths = { :global => masked_path, :screen => masked_path, :specific => masked_path }
 
       @diff_path = "#{run_data_path}/../Diff/#{@file_name}"
+      @diff_path = "#{run_data_path}/../Diff_tomask/#{@file_name}" if tomask
     end
   end
 
@@ -74,6 +76,8 @@ class Zucchini::Screenshot
       else
         compare_command = "compare -metric AE -fuzz 2% -dissimilarity-threshold 1"
       end
+
+      compare_command += " -lowlight-color 'rgba(0,0,0,0)' -compose src -highlight-color 'rgba(0,0,0,1)'" if @tomask
 
       out = `#{compare_command} \"#{@masked_paths[:specific]}\" \"#{@test_path}\" \"#{@diff_path}\" 2>&1`
       out.chomp!
