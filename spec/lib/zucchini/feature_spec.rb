@@ -91,7 +91,7 @@ describe Zucchini::Feature do
         feature.approve_tomask
         (File.exists? "#{feature.path}/masks/retina_ios5/01_screenshot.png").should eq true
 
-        diff = compare_image(initial_mask_path, origin_initial_mask_ref_path, "#{feature.path}/01_screenshot.png");
+        diff = compare_image(initial_mask_path, origin_initial_mask_ref_path, "#{feature.path}/run_data/Run\ 1/Diff/01_screenshot.png");
         (diff[0]).should eq :failed
       end
 
