@@ -68,27 +68,7 @@ class Zucchini::Screenshot
 
     if @test_path
       FileUtils.mkdir_p(File.dirname(@diff_path))
-
-      compare_version_string = `compare --version`.strip.split[2].slice(/\d+\.\d+\.\d+/)
-
-      if Gem::Version.new(compare_version_string) < Gem::Version.new('6.8.8')
-        compare_command = "compare -metric AE -fuzz 2% -dissimilarity-threshold 1 -subimage-search"
-      else
-        compare_command = "compare -metric AE -fuzz 2% -dissimilarity-threshold 1"
-      end
-
-      compare_command += " -lowlight-color 'rgba(0,0,0,0)' -compose src -highlight-color 'rgba(0,0,0,1)'" if @tomask
-
-      out = `#{compare_command} \"#{@masked_paths[:specific]}\" \"#{@test_path}\" \"#{@diff_path}\" 2>&1`
-      out.chomp!
-      out = out.split("\n")[0]
-
-      if Gem::Version.new(compare_version_string) < Gem::Version.new('6.8.8')
-        @diff = (out == '0') ? [:passed, nil] : [:failed, out]
-      else
-        @diff = ($?.exitstatus == 0) ? [:passed, nil] : [:failed, out]
-      end
-
+      @diff = Zucchini::Screenshot.compare_image(@masked_paths[:specific], @test_path, @diff_path, @tomask)
       @diff = [:pending, @diff[1]] if @pending
     else
       @diff = [:failed, "no reference or pending screenshot for #{@device[:screen]}"]
@@ -124,6 +104,28 @@ class Zucchini::Screenshot
 
   def self.valid?(file_path)
     FILE_NAME_PATTERN =~ File.basename(file_path)
+  end
+
+  def self.compare_image(file1_path, file2_path, diff_path, tomask = false)
+    compare_version_string = `compare --version`.strip.split[2].slice(/\d+\.\d+\.\d+/)
+
+    if Gem::Version.new(compare_version_string) < Gem::Version.new('6.8.8')
+      compare_command = "compare -metric AE -fuzz 2% -dissimilarity-threshold 1 -subimage-search"
+    else
+      compare_command = "compare -metric AE -fuzz 2% -dissimilarity-threshold 1"
+    end
+
+    compare_command += " -lowlight-color 'rgba(0,0,0,0)' -compose src -highlight-color 'rgba(0,0,0,1)'" if tomask
+
+    out = `#{compare_command} \"#{file1_path}\" \"#{file2_path}\" \"#{diff_path}\" 2>&1`
+    out.chomp!
+    out = out.split("\n")[0]
+
+    if Gem::Version.new(compare_version_string) < Gem::Version.new('6.8.8')
+      @diff = (out == '0') ? [:passed, nil] : [:failed, out]
+    else
+      @diff = ($?.exitstatus == 0) ? [:passed, nil] : [:failed, out]
+    end
   end
 
   private
